@@ -1,4 +1,5 @@
 # Version
+[![CI Status](http://img.shields.io/travis/mrackwitz/Version.svg?style=flat)](https://travis-ci.org/mrackwitz/Version)
 [![Version](https://img.shields.io/cocoapods/v/Version.svg?style=flat)](http://cocoadocs.org/docsets/Version)
 [![License](https://img.shields.io/cocoapods/l/Version.svg?style=flat)](http://cocoadocs.org/docsets/Version)
 [![Platform](https://img.shields.io/cocoapods/p/Version.svg?style=flat)](http://cocoadocs.org/docsets/Version)
