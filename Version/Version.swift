@@ -14,14 +14,14 @@ public class Version : Equatable, Comparable {
     public let minor: Int?
     public let patch: Int?
     public let prerelease: String?
-    public let buildMetadata: String?
+    public let build: String?
     
-    required public init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, buildMetadata: String? = nil) {
+    required public init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
         self.major = major
         self.minor = minor
         self.patch = patch
         self.prerelease = prerelease
-        self.buildMetadata = buildMetadata
+        self.build = build
     }
 }
 
@@ -31,7 +31,7 @@ public func ==(lhs: Version, rhs: Version) -> Bool {
         && lhs.minor == rhs.minor
         && lhs.patch == rhs.patch
         && lhs.prerelease == rhs.prerelease
-        && lhs.buildMetadata == rhs.buildMetadata
+        && lhs.build == rhs.build
 }
 
 
@@ -40,7 +40,7 @@ public func <(lhs: Version, rhs: Version) -> Bool {
         || lhs.minor < rhs.minor
         || lhs.patch < rhs.patch
         || lhs.prerelease < rhs.prerelease
-        || lhs.buildMetadata < rhs.buildMetadata
+        || lhs.build < rhs.build
 }
 
 
@@ -48,10 +48,10 @@ extension Version : Printable {
     public var description: String {
         return "".join([
             "\(major)",
-            minor         != nil ? ".\(minor!)" : "",
-            patch         != nil ? ".\(patch!)" : "",
-            prerelease    != nil ? "-\(prerelease!)"    : "",
-            buildMetadata != nil ? "+\(buildMetadata!)" : ""
+            minor      != nil ? ".\(minor!)"      : "",
+            patch      != nil ? ".\(patch!)"      : "",
+            prerelease != nil ? "-\(prerelease!)" : "",
+            build      != nil ? "+\(build!)"      : ""
         ])
     }
 }
@@ -95,6 +95,6 @@ extension Version: StringLiteralConvertible {
         let minor = minorStr != nil ? minorStr!.toInt() : nil
         let patch = patchStr != nil ? patchStr!.toInt() : nil
         
-        return self(major: major!, minor: minor ?? 0, patch: patch ?? 0, prerelease: parts.try(4), buildMetadata: parts.try(5))
+        return self(major: major!, minor: minor ?? 0, patch: patch ?? 0, prerelease: parts.try(4), build: parts.try(5))
     }
 }

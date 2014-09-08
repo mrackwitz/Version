@@ -11,15 +11,15 @@ import XCTest
 
 class VersionTests: XCTestCase {
     
-    let version = Version(major: 1, minor: 2, patch: 3, prerelease: "alpha1", buildMetadata: "B001")
+    let version = Version(major: 1, minor: 2, patch: 3, prerelease: "alpha1", build: "B001")
     
     func testEquatable() {
-        XCTAssertEqual(version, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha1", buildMetadata: "B001"))
-        XCTAssertNotEqual(version, Version(major: 2, minor: 2, patch: 3, prerelease: "alpha1", buildMetadata: "B001"))
-        XCTAssertNotEqual(version, Version(major: 1, minor: 3, patch: 3, prerelease: "alpha1", buildMetadata: "B001"))
-        XCTAssertNotEqual(version, Version(major: 1, minor: 2, patch: 4, prerelease: "alpha1", buildMetadata: "B001"))
-        XCTAssertNotEqual(version, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha2", buildMetadata: "B001"))
-        XCTAssertNotEqual(version, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha2", buildMetadata: "B002"))
+        XCTAssertEqual(version,    Version(major: 1, minor: 2, patch: 3, prerelease: "alpha1", build: "B001"))
+        XCTAssertNotEqual(version, Version(major: 2, minor: 2, patch: 3, prerelease: "alpha1", build: "B001"))
+        XCTAssertNotEqual(version, Version(major: 1, minor: 3, patch: 3, prerelease: "alpha1", build: "B001"))
+        XCTAssertNotEqual(version, Version(major: 1, minor: 2, patch: 4, prerelease: "alpha1", build: "B001"))
+        XCTAssertNotEqual(version, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha2", build: "B001"))
+        XCTAssertNotEqual(version, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha2", build: "B002"))
     }
     
     func testStringLiteralConvertible() {
@@ -32,7 +32,7 @@ class VersionTests: XCTestCase {
         XCTAssertEqual("1.2",               Version(major: 1, minor: 2).description)
         XCTAssertEqual("1.2.3",             Version(major: 1, minor: 2, patch: 3).description)
         XCTAssertEqual("1.2.3-alpha1",      Version(major: 1, minor: 2, patch: 3, prerelease: "alpha1").description)
-        XCTAssertEqual("1.2.3-alpha1+B001", Version(major: 1, minor: 2, patch: 3, prerelease: "alpha1", buildMetadata: "B001").description)
+        XCTAssertEqual("1.2.3-alpha1+B001", Version(major: 1, minor: 2, patch: 3, prerelease: "alpha1", build: "B001").description)
     }
     
     func testComparable() {
