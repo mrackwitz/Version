@@ -16,12 +16,26 @@ public class Version : Equatable, Comparable {
     public let prerelease: String?
     public let build: String?
     
-    required public init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
+    public required init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
         self.major = major
         self.minor = minor
         self.patch = patch
         self.prerelease = prerelease
         self.build = build
+    }
+    
+    public required init(_ value: String) {
+        let parts = pattern.groupsOfFirstMatch(value)
+        
+        let majorStr = parts[1]
+        let minorStr = parts.try(2)
+        let patchStr = parts.try(3)
+        
+        self.major      = majorStr.toInt()!
+        self.minor      = minorStr != nil ? minorStr!.toInt() : nil
+        self.patch      = patchStr != nil ? patchStr!.toInt() : nil
+        self.prerelease = parts.try(4)
+        self.build      = parts.try(5)
     }
 }
 
@@ -82,19 +96,8 @@ extension Version: StringLiteralConvertible {
     public class func convertFromExtendedGraphemeClusterLiteral(value: ExtendedGraphemeClusterLiteralType) -> Self {
         return self(major: value.toInt()!)
     }
-
+    
     public class func convertFromStringLiteral(value: StringLiteralType) -> Self {
-        let parts = pattern.groupsOfFirstMatch(value)
-        println(parts)
-        
-        let majorStr = parts[1]
-        let minorStr = parts.try(2)
-        let patchStr = parts.try(3)
-        
-        let major = majorStr.toInt()
-        let minor = minorStr != nil ? minorStr!.toInt() : nil
-        let patch = patchStr != nil ? patchStr!.toInt() : nil
-        
-        return self(major: major!, minor: minor ?? 0, patch: patch ?? 0, prerelease: parts.try(4), build: parts.try(5))
+        return self(value)
     }
 }
