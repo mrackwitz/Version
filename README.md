@@ -20,13 +20,13 @@ The representation is:
 Versions could be either instantiated directly:
 
 ```swift
-let version = Version(major: 1, minor: 2, patch: 3, prerelease: "alpha1", build: "B001")
+let version = Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001")
 ```
 
 Or they can be converted from a string literal:
 
 ```swift
-let version : Version = "1.2.3-alhpa1+B001"
+let version : Version = "1.2.3-alpha.1+B001"
 ```
 
 Versions can be compared between each other:
