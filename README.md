@@ -41,6 +41,25 @@ if version > "2.0" {
 }
 ```
 
+Finally Versions can be directly read from bundles:
+
+```swift
+if NSBundle(path: "Alamofire.framework").version! < "1.0.0" {
+    println("Howdy Ho! Such an early-adopter using an unstable version!")
+    println("Beware: “Anything may change at any time.”")
+
+    // … or insert an actual meaningful special handling
+    // for version-specific *implementation details* here.
+}
+```
+
+**ATTENTION**: Take care when you check versions of frameworks.
+Such checks happen at runtime. They can hurt performance if used at the wrong
+place. If there are API changes and you want to consume new methods, you have
+to do that at compile time by checking with precompiler macros (`#if`)
+for definitions, which have beeen passed to the compiler build setting
+`OTHER_SWIFT_FLAGS`.
+
 ## Installation
 
 Version is available through [CocoaPods](http://cocoapods.org). To install
