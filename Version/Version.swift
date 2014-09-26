@@ -50,11 +50,38 @@ public func ==(lhs: Version, rhs: Version) -> Bool {
 
 
 public func <(lhs: Version, rhs: Version) -> Bool {
-    return lhs.major < rhs.major
-        || lhs.minor < rhs.minor
-        || lhs.patch < rhs.patch
-        || lhs.prerelease < rhs.prerelease
-        || lhs.build < rhs.build
+    if (lhs.major < rhs.major
+     || lhs.minor < rhs.minor
+     || lhs.patch < rhs.patch) {
+        return true
+    }
+    
+    switch (lhs.prerelease, rhs.prerelease) {
+        case (.Some, .None):
+            return true
+        case (.None, .Some):
+            return false
+        case let (lpre, rpre):
+            let lhsComponents = lpre!.componentsSeparatedByString(".")
+            let rhsComponents = rpre!.componentsSeparatedByString(".")
+            let comparisables = Zip2(lhsComponents, rhsComponents)
+            for pair in comparisables {
+                if pair.0 != pair.1 {
+                    if numberPattern.match(pair.0) && numberPattern.match(pair.1) {
+                        return pair.0.toInt() < pair.1.toInt()
+                    } else {
+                        return pair.0 < pair.1
+                    }
+                }
+            }
+            if lhsComponents.count != rhsComponents.count {
+                return lhsComponents.count < rhsComponents.count
+            }
+        default:
+            break
+    }
+    
+    return lhs.build < rhs.build
 }
 
 
@@ -70,7 +97,8 @@ extension Version : Printable {
     }
 }
 
-let pattern = Regex(pattern: "([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(?:-([0-9A-Za-z-]+))?(?:\\+([0-9A-Za-z-]+))?")
+let pattern = Regex(pattern: "([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?")
+let numberPattern = Regex(pattern: "[0-9]+")
 let anchoredPattern = Regex(pattern: "/\\A\\s*(\(pattern.pattern))?\\s*\\z/")
 
 extension Version {
