@@ -119,3 +119,21 @@ extension Version: StringLiteralConvertible {
         return self(value)
     }
 }
+
+
+extension NSBundle {
+    public var version : Version? {
+        return self.versionFromInfoDicitionary(forKey: String(kCFBundleVersionKey))
+    }
+    
+    public var shortVersion : Version? {
+        return self.versionFromInfoDicitionary(forKey: "CFBundleShortVersionString")
+    }
+    
+    func versionFromInfoDicitionary(forKey key: String) -> Version? {
+        if let bundleVersion = self.infoDictionary[key] as? NSString {
+            return Version(bundleVersion)
+        }
+        return nil
+    }
+}

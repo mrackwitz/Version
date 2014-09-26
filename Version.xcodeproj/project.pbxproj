@@ -11,6 +11,7 @@
 		712D32B119BD06570093BAD7 /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712D32B019BD06570093BAD7 /* VersionTests.swift */; };
 		712D32BB19BD06620093BAD7 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712D32BA19BD06620093BAD7 /* Version.swift */; };
 		712D32BD19BD148C0093BAD7 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712D32BC19BD148C0093BAD7 /* Regex.swift */; };
+		71B5631719D5CE28009B2C0D /* Test.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71B5631619D5CE28009B2C0D /* Test.bundle */; };
 		71B5631919D5D344009B2C0D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B5631819D5D344009B2C0D /* Helper.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		712D32B019BD06570093BAD7 /* VersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTests.swift; sourceTree = "<group>"; };
 		712D32BA19BD06620093BAD7 /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		712D32BC19BD148C0093BAD7 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		71B5631619D5CE28009B2C0D /* Test.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Test.bundle; sourceTree = "<group>"; };
 		71B5631819D5D344009B2C0D /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				712D32B019BD06570093BAD7 /* VersionTests.swift */,
+				71B5631619D5CE28009B2C0D /* Test.bundle */,
 				712D32AE19BD06570093BAD7 /* Supporting Files */,
 			);
 			path = VersionTests;
@@ -206,6 +209,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71B5631719D5CE28009B2C0D /* Test.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
