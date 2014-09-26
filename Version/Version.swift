@@ -80,16 +80,6 @@ extension Version {
 }
 
 
-extension Array {
-    func try(index: Int) -> T? {
-        if index >= 0  && index < count {
-            return self[index]
-        } else {
-            return nil
-        }
-    }
-}
-
 extension Version: StringLiteralConvertible {
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
