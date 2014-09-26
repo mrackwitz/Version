@@ -55,10 +55,10 @@ As soon as CocoaPods supports Swift. (cooming soon :wink:)
 
 ## Author
 
-Marius Rackwitz, git@mariusrackwitz.de
+Marius Rackwitz, git@mariusrackwitz.de  
+Find me on Twitter as [@mrackwitz](https://twitter.com/mrackwitz).
 
 
 ## License
 
 Version is available under the MIT license. See the LICENSE file for more info.
-
