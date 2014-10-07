@@ -32,12 +32,23 @@ let version : Version = "1.2.3-alpha.1+B001"
 Versions can be compared between each other:
 
 ```swift
-if version > "2.0" {
+let version : Version = UIDevice.currentDevice().systemVersion()
+if version > "8.0" {
     // do something in a more amazing way
-} else if version > "1.2"
+} else if version > "7.0"
     // do it an old-fashioned, legacy-style
 } else {
     // do not care …
+}
+```
+
+Besides UIKit's `UIDevice` the more preferable variant to access
+the operation system version in Foundation as shown below is supported, too.
+
+```swift
+let version : Version = NSProcessInfo.processInfo().operationSystemVersion
+if version == "8.0.1" {
+    NSLog("Sorry no cellular data for you, my friend!")
 }
 ```
 
