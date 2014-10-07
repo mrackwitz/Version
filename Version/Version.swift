@@ -9,14 +9,14 @@
 import Foundation
 
 
-public class Version : Equatable, Comparable {
+public struct Version : Equatable, Comparable {
     public let major: Int
     public let minor: Int?
     public let patch: Int?
     public let prerelease: String?
     public let build: String?
     
-    public required init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
+    public init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
         self.major = major
         self.minor = minor
         self.patch = patch
@@ -24,7 +24,7 @@ public class Version : Equatable, Comparable {
         self.build = build
     }
     
-    public required init(_ value: String) {
+    public init(_ value: String) {
         let parts = pattern.groupsOfFirstMatch(value)
         
         let majorStr = parts[1]
@@ -102,7 +102,7 @@ let numberPattern = Regex(pattern: "[0-9]+")
 let anchoredPattern = Regex(pattern: "/\\A\\s*(\(pattern.pattern))?\\s*\\z/")
 
 extension Version {
-    public class func valid(string: String) -> Bool {
+    public static func valid(string: String) -> Bool {
         return anchoredPattern.match(string)
     }
 }
@@ -111,11 +111,11 @@ extension Version {
 extension Version: StringLiteralConvertible {
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
-    public class func convertFromExtendedGraphemeClusterLiteral(value: ExtendedGraphemeClusterLiteralType) -> Self {
+    public static func convertFromExtendedGraphemeClusterLiteral(value: ExtendedGraphemeClusterLiteralType) -> Version {
         return self(major: value.toInt()!)
     }
     
-    public class func convertFromStringLiteral(value: StringLiteralType) -> Self {
+    public static func convertFromStringLiteral(value: StringLiteralType) -> Version {
         return self(value)
     }
 }
