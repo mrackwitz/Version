@@ -78,4 +78,9 @@ class VersionTests: XCTestCase {
         XCTAssertEqual(testBundle.version!,      version)
     }
     
+    func testProcessInfoVersion() {
+        let processVersion : Version = NSProcessInfo.processInfo().operationSystemVersion
+        XCTAssert(processVersion > "7.0.0")
+    }
+    
 }
