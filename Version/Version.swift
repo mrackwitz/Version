@@ -40,6 +40,9 @@ public struct Version : Equatable, Comparable {
 }
 
 
+// MARK: Operators
+// required by Equatable, Comparable
+
 public func ==(lhs: Version, rhs: Version) -> Bool {
     return lhs.major == rhs.major
         && lhs.minor == rhs.minor
@@ -85,6 +88,8 @@ public func <(lhs: Version, rhs: Version) -> Bool {
 }
 
 
+// MARK: String conversion
+
 extension Version : Printable {
     public var description: String {
         return "".join([
@@ -96,6 +101,7 @@ extension Version : Printable {
         ])
     }
 }
+
 
 let pattern = Regex(pattern: "([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?")
 let numberPattern = Regex(pattern: "[0-9]+")
@@ -120,6 +126,8 @@ extension Version: StringLiteralConvertible {
     }
 }
 
+
+// MARK: Foundation extensions
 
 extension NSBundle {
     public var version : Version? {
