@@ -157,3 +157,16 @@ extension NSProcessInfo {
         )
     }
 }
+
+
+// MARK: UIKit extensions
+
+#if os(iOS)
+
+    extension UIDevice {
+        public func systemVersion() -> Version {
+            return Version(self.systemVersion())
+        }
+    }
+
+#endif
