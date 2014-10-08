@@ -1,8 +1,5 @@
 # Version
 [![CI Status](http://img.shields.io/travis/mrackwitz/Version.svg?style=flat)](https://travis-ci.org/mrackwitz/Version)
-[![Version](https://img.shields.io/cocoapods/v/Version.svg?style=flat)](http://cocoadocs.org/docsets/Version)
-[![License](https://img.shields.io/cocoapods/l/Version.svg?style=flat)](http://cocoadocs.org/docsets/Version)
-[![Platform](https://img.shields.io/cocoapods/p/Version.svg?style=flat)](http://cocoadocs.org/docsets/Version)
 
 Version is a Swift Library, which enables to represent and compare semantic version numbers.
 It follows [Semantic Versioning 2.0.0](http://semver.org).
@@ -73,7 +70,7 @@ for definitions, which have beeen passed to the compiler build setting
 
 ## Installation
 
-Version is available through [CocoaPods](http://cocoapods.org). To install
+Version wil be available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```
