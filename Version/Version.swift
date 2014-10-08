@@ -162,6 +162,7 @@ extension NSProcessInfo {
 // MARK: UIKit extensions
 
 #if os(iOS)
+    import UIKit
 
     extension UIDevice {
         public func systemVersion() -> Version {
