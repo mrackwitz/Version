@@ -65,19 +65,19 @@ if NSBundle(path: "Alamofire.framework").version! < "1.0.0" {
 Such checks happen at runtime. They can hurt performance if used at the wrong
 place. If there are API changes and you want to consume new methods, you have
 to do that at compile time by checking with precompiler macros (`#if`)
-for definitions, which have beeen passed to the compiler build setting
+for definitions, which have been passed to the compiler build setting
 `OTHER_SWIFT_FLAGS`.
 
 ## Installation
 
-Version wil be available through [CocoaPods](http://cocoapods.org). To install
+Version will be available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
-```
-pod "Version"
+```ruby
+pod 'Version'
 ```
 
-As soon as CocoaPods supports Swift. (cooming soon :wink:)
+As soon as CocoaPods supports Swift. (coming soon :wink:)
 
 
 ## Author
