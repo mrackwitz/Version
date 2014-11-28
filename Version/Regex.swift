@@ -19,17 +19,18 @@ extension String {
 
 struct Regex {
     let pattern: String
-    let options: NSRegularExpressionOptions!
+    let options: NSRegularExpressionOptions
+    let matcher: NSRegularExpression!
     
-    private var matcher: NSRegularExpression {
-        var error : NSError?
-        let regex = NSRegularExpression(pattern: self.pattern, options: self.options, error: &error)
-        return regex
-    }
-    
-    init(pattern: String, options: NSRegularExpressionOptions = nil) {
+    init?(pattern: String, options: NSRegularExpressionOptions = nil) {
         self.pattern = pattern
         self.options = options
+        
+        var error : NSError?
+        self.matcher = NSRegularExpression(pattern: self.pattern, options: self.options, error: &error)
+        if self.matcher == nil {
+            return nil
+        }
     }
     
     func match(string: String, options: NSMatchingOptions = nil) -> Bool {
@@ -66,13 +67,18 @@ func ==(lhs: Regex, rhs: Regex) -> Bool {
 }
 
 extension Regex: StringLiteralConvertible {
+    typealias UnicodeScalarLiteralType = Character
     typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
-    static func convertFromExtendedGraphemeClusterLiteral(value: ExtendedGraphemeClusterLiteralType) -> Regex {
-        return self(pattern: value)
+    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+        self.init(pattern: "\(value)")
     }
     
-    static func convertFromStringLiteral(value: StringLiteralType) -> Regex {
-        return self(pattern: value)
+    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+        self.init(pattern: value)
+    }
+    
+    init(stringLiteral value: StringLiteralType) {
+        self.init(pattern: value)
     }
 }

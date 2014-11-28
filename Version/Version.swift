@@ -103,9 +103,9 @@ extension Version : Printable {
 }
 
 
-let pattern = Regex(pattern: "([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?")
-let numberPattern = Regex(pattern: "[0-9]+")
-let anchoredPattern = Regex(pattern: "/\\A\\s*(\(pattern.pattern))?\\s*\\z/")
+let pattern = Regex(pattern: "([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?")!
+let numberPattern = Regex(pattern: "[0-9]+")!
+let anchoredPattern = Regex(pattern: "/\\A\\s*(\(pattern.pattern))?\\s*\\z/")!
 
 extension Version {
     public static func valid(string: String) -> Bool {
@@ -115,14 +115,19 @@ extension Version {
 
 
 extension Version: StringLiteralConvertible {
+    public typealias UnicodeScalarLiteralType = Character
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
-    public static func convertFromExtendedGraphemeClusterLiteral(value: ExtendedGraphemeClusterLiteralType) -> Version {
-        return self(major: value.toInt()!)
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+        self.init("\(value)")
     }
     
-    public static func convertFromStringLiteral(value: StringLiteralType) -> Version {
-        return self(value)
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+        self.init(value)
+    }
+    
+    public init(stringLiteral value: StringLiteralType) {
+        self.init(value)
     }
 }
 
@@ -139,8 +144,8 @@ extension NSBundle {
     }
     
     func versionFromInfoDicitionary(forKey key: String) -> Version? {
-        if let bundleVersion = self.infoDictionary[key] as? NSString {
-            return Version(bundleVersion)
+        if let bundleVersion = self.infoDictionary?[key] as? NSString {
+            return Version(String(bundleVersion))
         }
         return nil
     }
@@ -165,7 +170,7 @@ extension NSProcessInfo {
     import UIKit
 
     extension UIDevice {
-        public func systemVersion() -> Version {
+        public func systemVersion() -> Version? {
             return Version(self.systemVersion())
         }
     }

@@ -73,7 +73,7 @@ class VersionTests: XCTestCase {
     func testBundleVersion() {
         let mainBundle = NSBundle(forClass: VersionTests.self)
         let path = mainBundle.pathForResource("Test", ofType: "bundle")
-        let testBundle = NSBundle(path: path!)
+        let testBundle = NSBundle(path: path!)!
         XCTAssertEqual(testBundle.shortVersion!, Version(major: 1, minor: 2, patch: 3))
         XCTAssertEqual(testBundle.version!,      version)
     }
