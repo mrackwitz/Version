@@ -24,16 +24,21 @@ public struct Version : Equatable, Comparable {
         self.build = build
     }
     
-    public init(_ value: String) {
+    public init?(_ value: String) {
         let parts = pattern.groupsOfFirstMatch(value)
         
         let majorStr = parts[1]
+        if let major = majorStr.toInt() {
+            self.major = major
+        } else {
+            return nil
+        }
+        
         let minorStr = parts.try(2)
         let patchStr = parts.try(3)
         
-        self.major      = majorStr.toInt()!
-        self.minor      = minorStr != nil ? minorStr!.toInt() : nil
-        self.patch      = patchStr != nil ? patchStr!.toInt() : nil
+        self.minor      = minorStr?.toInt()
+        self.patch      = patchStr?.toInt()
         self.prerelease = parts.try(4)
         self.build      = parts.try(5)
     }
