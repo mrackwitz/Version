@@ -2,7 +2,6 @@
 
 language: objective-c
 
-before_install: pod install
-
 script:
-- xctool test -project Version.xcodeproj -scheme Version -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+ - xcodebuild test -project Version.xcodeproj -scheme Version -sdk macosx | xcpretty -c && exit ${PIPESTATUS[0]}
+ - xcodebuild test -project Version.xcodeproj -scheme Version -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
