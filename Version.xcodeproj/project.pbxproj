@@ -36,6 +36,9 @@
 		712D32BC19BD148C0093BAD7 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		71B5631619D5CE28009B2C0D /* Test.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Test.bundle; sourceTree = "<group>"; };
 		71B5631819D5D344009B2C0D /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		71F4B9EA1A29EB29000F43D6 /* UniversalFramework_Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UniversalFramework_Base.xcconfig; sourceTree = "<group>"; };
+		71F4B9EC1A29FB11000F43D6 /* UniversalFramework_Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UniversalFramework_Test.xcconfig; sourceTree = "<group>"; };
+		71F4B9ED1A29FB6F000F43D6 /* UniversalFramework_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UniversalFramework_Framework.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +65,7 @@
 				712D32A319BD06570093BAD7 /* Version */,
 				712D32AD19BD06570093BAD7 /* VersionTests */,
 				712D32A219BD06570093BAD7 /* Products */,
+				71F4B9E91A29EAE9000F43D6 /* Configurations */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,6 +114,16 @@
 				712D32AF19BD06570093BAD7 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		71F4B9E91A29EAE9000F43D6 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				71F4B9EA1A29EB29000F43D6 /* UniversalFramework_Base.xcconfig */,
+				71F4B9ED1A29FB6F000F43D6 /* UniversalFramework_Framework.xcconfig */,
+				71F4B9EC1A29FB11000F43D6 /* UniversalFramework_Test.xcconfig */,
+			);
+			path = Configurations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,6 +261,7 @@
 /* Begin XCBuildConfiguration section */
 		712D32B219BD06570093BAD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71F4B9EA1A29EB29000F43D6 /* UniversalFramework_Base.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -293,6 +308,7 @@
 		};
 		712D32B319BD06570093BAD7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71F4B9EA1A29EB29000F43D6 /* UniversalFramework_Base.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -332,6 +348,7 @@
 		};
 		712D32B519BD06570093BAD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71F4B9ED1A29FB6F000F43D6 /* UniversalFramework_Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -340,7 +357,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Version/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -349,6 +365,7 @@
 		};
 		712D32B619BD06570093BAD7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71F4B9ED1A29FB6F000F43D6 /* UniversalFramework_Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -357,7 +374,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Version/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -365,30 +381,22 @@
 		};
 		712D32B819BD06570093BAD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71F4B9EC1A29FB11000F43D6 /* UniversalFramework_Test.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = VersionTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		712D32B919BD06570093BAD7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71F4B9EC1A29FB11000F43D6 /* UniversalFramework_Test.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = VersionTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
