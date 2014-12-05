@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Marius Rackwitz. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Version.
 FOUNDATION_EXPORT double VersionVersionNumber;

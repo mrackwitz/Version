@@ -158,6 +158,7 @@ extension NSBundle {
 
 extension NSProcessInfo {
     @availability(iOS, introduced=8.0)
+    @availability(OSX, introduced=10.10)
     public var operationSystemVersion: Version {
         let version : NSOperatingSystemVersion = self.operatingSystemVersion
         return Version(

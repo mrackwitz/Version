@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "712D32A019BD06570093BAD7"
+               BlueprintIdentifier = "26CC4A321A3239890084E1D0"
                BuildableName = "Version.framework"
-               BlueprintName = "Version"
+               BlueprintName = "Version-Mac"
+               ReferencedContainer = "container:Version.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "26CC4A3C1A3239890084E1D0"
+               BuildableName = "Version-MacTests.xctest"
+               BlueprintName = "Version-MacTests"
                ReferencedContainer = "container:Version.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "712D32AB19BD06570093BAD7"
-               BuildableName = "VersionTests.xctest"
-               BlueprintName = "VersionTests"
+               BlueprintIdentifier = "26CC4A3C1A3239890084E1D0"
+               BuildableName = "Version-MacTests.xctest"
+               BlueprintName = "Version-MacTests"
                ReferencedContainer = "container:Version.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,16 +56,16 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "712D32A019BD06570093BAD7"
+            BlueprintIdentifier = "26CC4A321A3239890084E1D0"
             BuildableName = "Version.framework"
-            BlueprintName = "Version"
+            BlueprintName = "Version-Mac"
             ReferencedContainer = "container:Version.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
    <LaunchAction
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug"
@@ -61,9 +75,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "712D32A019BD06570093BAD7"
+            BlueprintIdentifier = "26CC4A321A3239890084E1D0"
             BuildableName = "Version.framework"
-            BlueprintName = "Version"
+            BlueprintName = "Version-Mac"
             ReferencedContainer = "container:Version.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -79,9 +93,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "712D32A019BD06570093BAD7"
+            BlueprintIdentifier = "26CC4A321A3239890084E1D0"
             BuildableName = "Version.framework"
-            BlueprintName = "Version"
+            BlueprintName = "Version-Mac"
             ReferencedContainer = "container:Version.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
