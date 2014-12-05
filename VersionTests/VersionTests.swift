@@ -8,6 +8,9 @@
 
 import Version
 import XCTest
+#if os(iOS)
+import UIKit
+#endif
 
 class VersionTests: XCTestCase {
     
