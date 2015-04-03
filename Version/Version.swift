@@ -9,7 +9,7 @@
 import Foundation
 
 
-public struct Version : Equatable, Comparable {
+public struct Version : Hashable, Comparable {
     public let major: Int
     public let minor: Int?
     public let patch: Int?
@@ -92,6 +92,17 @@ public func <(lhs: Version, rhs: Version) -> Bool {
     return lhs.build < rhs.build
 }
 
+extension Version : Hashable {
+    public var hashValue: Int {
+        let majorHash = major.hashValue
+        let minorHash = minor?.hashValue ?? 0
+        let patchHash = patch?.hashValue ?? 0
+        let prereleaseHash = prerelease?.hashValue ?? 0
+        let buildHash = build?.hashValue ?? 0
+        let prime = 31
+        return reduce([majorHash, minorHash, patchHash, prereleaseHash, buildHash], 0) { $0 &* prime &+ $1 }
+    }
+}
 
 // MARK: String conversion
 
