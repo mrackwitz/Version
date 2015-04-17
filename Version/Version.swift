@@ -123,15 +123,15 @@ extension Version: StringLiteralConvertible {
     public typealias UnicodeScalarLiteralType = Character
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
-    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    public init!(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init("\(value)")
     }
     
-    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    public init!(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(value)
     }
     
-    public init(stringLiteral value: StringLiteralType) {
+    public init!(stringLiteral value: StringLiteralType) {
         self.init(value)
     }
 }

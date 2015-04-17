@@ -11,7 +11,7 @@ import Foundation
 
 extension String {
     var range: NSRange {
-        return NSMakeRange(0, self.utf16Count)
+        return NSMakeRange(0, count(self.utf16))
     }
     
     func substringWithRange(range: NSRange) -> String {
@@ -74,15 +74,15 @@ extension Regex: StringLiteralConvertible {
     typealias UnicodeScalarLiteralType = Character
     typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
-    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    init!(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(pattern: "\(value)")
     }
     
-    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    init!(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(pattern: value)
     }
     
-    init(stringLiteral value: StringLiteralType) {
+    init!(stringLiteral value: StringLiteralType) {
         self.init(pattern: value)
     }
 }
