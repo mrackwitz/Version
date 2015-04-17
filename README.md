@@ -70,15 +70,12 @@ for definitions, which have been passed to the compiler build setting
 
 ## Installation
 
-Version will be available through [CocoaPods](http://cocoapods.org). To install
+Version is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'Version'
 ```
-
-As soon as CocoaPods supports Swift. (coming soon :wink:)
-
 
 ## Author
 
