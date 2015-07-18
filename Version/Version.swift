@@ -10,11 +10,11 @@ import Foundation
 
 
 public struct Version : Hashable, Comparable {
-    public let major: Int
-    public let minor: Int?
-    public let patch: Int?
-    public let prerelease: String?
-    public let build: String?
+    public var major: Int
+    public var minor: Int?
+    public var patch: Int?
+    public var prerelease: String?
+    public var build: String?
     
     public init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
         self.major = major
