@@ -8,13 +8,9 @@
 
 import Foundation
 
-
+// based on: http://stackoverflow.com/a/30593673/4194189
 extension Array {
-    func try(index: Int) -> T? {
-        if index >= 0 && index < count {
-            return self[index]
-        } else {
-            return nil
-        }
+    subscript (safe index: Int) -> Element? {
+        return indices ~= index ? self[index] : nil
     }
 }
