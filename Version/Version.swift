@@ -78,24 +78,24 @@ public func <(lhs: Version, rhs: Version) -> Bool {
             return true
         case (.None, .Some):
             return false
-        case let (lpre, rpre):
-            let lhsComponents = lpre!.componentsSeparatedByString(".")
-            let rhsComponents = rpre!.componentsSeparatedByString(".")
-            let comparisables = Zip2(lhsComponents, rhsComponents)
-            for pair in comparisables {
-                if pair.0 != pair.1 {
-                    if numberPattern.match(pair.0) && numberPattern.match(pair.1) {
-                        return pair.0.toInt() < pair.1.toInt()
+        case (.None, .None):
+            break;
+        case (.Some(let lpre), .Some(let rpre)):
+            let lhsComponents = lpre.componentsSeparatedByString(".")
+            let rhsComponents = rpre.componentsSeparatedByString(".")
+            let comparables = Zip2(lhsComponents, rhsComponents)
+            for (l, r) in comparables {
+                if l != r {
+                    if numberPattern.match(l) && numberPattern.match(r) {
+                        return Int(l) < Int(r)
                     } else {
-                        return pair.0 < pair.1
+                        return l < r
                     }
                 }
             }
             if lhsComponents.count != rhsComponents.count {
                 return lhsComponents.count < rhsComponents.count
             }
-        default:
-            break
     }
     
     return lhs.build < rhs.build
