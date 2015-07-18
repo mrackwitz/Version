@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29EA59701B5A448E002D767E /* UniversalFramework_Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 29EA596B1B5A448E002D767E /* UniversalFramework_Base.xcconfig */; };
+		29EA59711B5A448E002D767E /* UniversalFramework_Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */; };
+		29EA59721B5A448E002D767E /* UniversalFramework_Test.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */; };
 		712D32A719BD06570093BAD7 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 712D32A619BD06570093BAD7 /* Version.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		712D32B119BD06570093BAD7 /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712D32B019BD06570093BAD7 /* VersionTests.swift */; };
 		712D32BB19BD06620093BAD7 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712D32BA19BD06620093BAD7 /* Version.swift */; };
@@ -26,6 +29,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		29EA596B1B5A448E002D767E /* UniversalFramework_Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = UniversalFramework_Base.xcconfig; sourceTree = "<group>"; };
+		29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = UniversalFramework_Framework.xcconfig; sourceTree = "<group>"; };
+		29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = UniversalFramework_Test.xcconfig; sourceTree = "<group>"; };
 		712D32A119BD06570093BAD7 /* Version.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Version.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		712D32A519BD06570093BAD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		712D32A619BD06570093BAD7 /* Version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
@@ -36,9 +42,6 @@
 		712D32BC19BD148C0093BAD7 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		71B5631619D5CE28009B2C0D /* Test.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Test.bundle; sourceTree = "<group>"; };
 		71B5631819D5D344009B2C0D /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
-		71F4B9EA1A29EB29000F43D6 /* UniversalFramework_Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UniversalFramework_Base.xcconfig; sourceTree = "<group>"; };
-		71F4B9EC1A29FB11000F43D6 /* UniversalFramework_Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UniversalFramework_Test.xcconfig; sourceTree = "<group>"; };
-		71F4B9ED1A29FB6F000F43D6 /* UniversalFramework_Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UniversalFramework_Framework.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,13 +62,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		29EA59681B5A448E002D767E /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				29EA596B1B5A448E002D767E /* UniversalFramework_Base.xcconfig */,
+				29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */,
+				29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */,
+			);
+			path = xcconfigs;
+			sourceTree = "<group>";
+		};
 		712D329719BD06560093BAD7 = {
 			isa = PBXGroup;
 			children = (
 				712D32A319BD06570093BAD7 /* Version */,
 				712D32AD19BD06570093BAD7 /* VersionTests */,
 				712D32A219BD06570093BAD7 /* Products */,
-				71F4B9E91A29EAE9000F43D6 /* Configurations */,
+				29EA59681B5A448E002D767E /* xcconfigs */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,16 +127,6 @@
 				712D32AF19BD06570093BAD7 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		71F4B9E91A29EAE9000F43D6 /* Configurations */ = {
-			isa = PBXGroup;
-			children = (
-				71F4B9EA1A29EB29000F43D6 /* UniversalFramework_Base.xcconfig */,
-				71F4B9ED1A29FB6F000F43D6 /* UniversalFramework_Framework.xcconfig */,
-				71F4B9EC1A29FB11000F43D6 /* UniversalFramework_Test.xcconfig */,
-			);
-			path = Configurations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,6 +219,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29EA59701B5A448E002D767E /* UniversalFramework_Base.xcconfig in Resources */,
+				29EA59721B5A448E002D767E /* UniversalFramework_Test.xcconfig in Resources */,
+				29EA59711B5A448E002D767E /* UniversalFramework_Framework.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +267,6 @@
 /* Begin XCBuildConfiguration section */
 		712D32B219BD06570093BAD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71F4B9EA1A29EB29000F43D6 /* UniversalFramework_Base.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -308,7 +313,6 @@
 		};
 		712D32B319BD06570093BAD7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71F4B9EA1A29EB29000F43D6 /* UniversalFramework_Base.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -348,7 +352,7 @@
 		};
 		712D32B519BD06570093BAD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71F4B9ED1A29FB6F000F43D6 /* UniversalFramework_Framework.xcconfig */;
+			baseConfigurationReference = 29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -365,7 +369,7 @@
 		};
 		712D32B619BD06570093BAD7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71F4B9ED1A29FB6F000F43D6 /* UniversalFramework_Framework.xcconfig */;
+			baseConfigurationReference = 29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -381,7 +385,7 @@
 		};
 		712D32B819BD06570093BAD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71F4B9EC1A29FB11000F43D6 /* UniversalFramework_Test.xcconfig */;
+			baseConfigurationReference = 29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -394,7 +398,7 @@
 		};
 		712D32B919BD06570093BAD7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71F4B9EC1A29FB11000F43D6 /* UniversalFramework_Test.xcconfig */;
+			baseConfigurationReference = 29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = VersionTests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
