@@ -7,7 +7,7 @@ It follows [Semantic Versioning 2.0.0](http://semver.org).
 The representation is:
 
 * Comparable
-* Equatable
+* Hashable & Equatable
 * String Literal Convertible
 * Printable
 
