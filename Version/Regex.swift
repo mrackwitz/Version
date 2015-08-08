@@ -11,7 +11,7 @@ import Foundation
 
 extension String {
     var range: NSRange {
-        return NSMakeRange(0, self.utf16Count)
+        return NSMakeRange(0, count(self.utf16))
     }
     
     func substringWithRange(range: NSRange) -> String {
@@ -27,13 +27,20 @@ struct Regex {
     let matcher: NSRegularExpression!
     
     init?(pattern: String, options: NSRegularExpressionOptions = nil) {
-        self.pattern = pattern
-        self.options = options
-        
-        var error : NSError?
-        self.matcher = NSRegularExpression(pattern: self.pattern, options: self.options, error: &error)
+        var error: NSError?
+        self.init(pattern: pattern, options: options, error: &error)
         if self.matcher == nil {
             return nil
+        }
+    }
+    
+    init(pattern: String, options: NSRegularExpressionOptions = nil, var error: NSErrorPointer? = nil) {
+        self.pattern = pattern
+        self.options = options
+        var e: NSError?
+        self.matcher = NSRegularExpression(pattern: self.pattern, options: self.options, error: &e)
+        if let pointer = error {
+            pointer.memory = e
         }
     }
     
@@ -71,18 +78,18 @@ func ==(lhs: Regex, rhs: Regex) -> Bool {
 }
 
 extension Regex: StringLiteralConvertible {
-    typealias UnicodeScalarLiteralType = Character
+    typealias UnicodeScalarLiteralType = StringLiteralType
     typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
     init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-        self.init(pattern: "\(value)")
+        self.init(stringLiteral: value)
     }
     
     init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-        self.init(pattern: value)
+        self.init(stringLiteral: value)
     }
     
     init(stringLiteral value: StringLiteralType) {
-        self.init(pattern: value)
+        self.init(pattern: value, error: nil)
     }
 }

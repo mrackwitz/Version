@@ -24,23 +24,32 @@ public struct Version : Hashable, Comparable {
         self.build = build
     }
     
-    public init?(_ value: String) {
+    public init(version: Version) {
+        self.major = version.major
+        self.minor = version.minor
+        self.patch = version.patch
+        self.prerelease = version.prerelease
+        self.build = version.build
+    }
+    
+    public static func parse(value: String) -> Version? {
         let parts = pattern.groupsOfFirstMatch(value)
         
-        let majorStr = parts[1]
-        if let major = majorStr.toInt() {
-            self.major = major
+        if let major = parts.try(1)?.toInt() {
+            return Version(
+                major: major,
+                minor: parts.try(2)?.toInt(),
+                patch: parts.try(3)?.toInt(),
+                prerelease: parts.try(4),
+                build: parts.try(5)
+            )
         } else {
             return nil
         }
-        
-        let minorStr = parts.try(2)
-        let patchStr = parts.try(3)
-        
-        self.minor      = minorStr?.toInt()
-        self.patch      = patchStr?.toInt()
-        self.prerelease = parts.try(4)
-        self.build      = parts.try(5)
+    }
+    
+    public init!(_ value: String) {
+        self = Version.parse(value)!
     }
 }
 
@@ -131,15 +140,15 @@ extension Version {
 
 
 extension Version: StringLiteralConvertible {
-    public typealias UnicodeScalarLiteralType = Character
+    public typealias UnicodeScalarLiteralType = StringLiteralType
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
     public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-        self.init("\(value)")
+        self.init(stringLiteral: value)
     }
     
     public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-        self.init(value)
+        self.init(stringLiteral: value)
     }
     
     public init(stringLiteral value: StringLiteralType) {
