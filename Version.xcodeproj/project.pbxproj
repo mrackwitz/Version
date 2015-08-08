@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29EA59701B5A448E002D767E /* UniversalFramework_Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 29EA596B1B5A448E002D767E /* UniversalFramework_Base.xcconfig */; };
-		29EA59711B5A448E002D767E /* UniversalFramework_Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */; };
-		29EA59721B5A448E002D767E /* UniversalFramework_Test.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */; };
 		712D32A719BD06570093BAD7 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 712D32A619BD06570093BAD7 /* Version.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		712D32B119BD06570093BAD7 /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712D32B019BD06570093BAD7 /* VersionTests.swift */; };
 		712D32BB19BD06620093BAD7 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712D32BA19BD06620093BAD7 /* Version.swift */; };
@@ -185,7 +182,7 @@
 		712D329819BD06560093BAD7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Marius Rackwitz";
 				TargetAttributes = {
 					712D32A019BD06570093BAD7 = {
@@ -219,9 +216,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29EA59701B5A448E002D767E /* UniversalFramework_Base.xcconfig in Resources */,
-				29EA59721B5A448E002D767E /* UniversalFramework_Test.xcconfig in Resources */,
-				29EA59711B5A448E002D767E /* UniversalFramework_Framework.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
