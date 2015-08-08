@@ -9,7 +9,7 @@
 import Foundation
 
 
-public struct Version : Hashable, Comparable {
+public struct Version {
     public var major: Int
     public var minor: Int?
     public var patch: Int?
@@ -54,8 +54,9 @@ public struct Version : Hashable, Comparable {
 }
 
 
-// MARK: Operators
-// required by Equatable, Comparable
+// MARK: - Equatable
+
+extension Version : Equatable {}
 
 public func ==(lhs: Version, rhs: Version) -> Bool {
     return lhs.major == rhs.major
@@ -65,6 +66,10 @@ public func ==(lhs: Version, rhs: Version) -> Bool {
         && lhs.build == rhs.build
 }
 
+
+// MARK: - Comparable
+
+extension Version : Comparable {}
 
 public func <(lhs: Version, rhs: Version) -> Bool {
     if (lhs.major < rhs.major
