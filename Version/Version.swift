@@ -106,6 +106,9 @@ public func <(lhs: Version, rhs: Version) -> Bool {
     return lhs.build < rhs.build
 }
 
+
+// MARK: - Hashable
+
 extension Version : Hashable {
     public var hashValue: Int {
         let majorHash = major.hashValue
@@ -118,7 +121,8 @@ extension Version : Hashable {
     }
 }
 
-// MARK: String conversion
+
+// MARK: String Conversion
 
 extension Version : Printable {
     public var description: String {
@@ -162,7 +166,7 @@ extension Version: StringLiteralConvertible {
 }
 
 
-// MARK: Foundation extensions
+// MARK: Foundation Extensions
 
 extension NSBundle {
     public var version : Version? {
@@ -194,7 +198,7 @@ extension NSProcessInfo {
 }
 
 
-// MARK: UIKit extensions
+// MARK: UIKit Extensions
 
 #if os(iOS)
     import UIKit
