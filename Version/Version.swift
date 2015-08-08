@@ -195,7 +195,7 @@ extension NSProcessInfo {
     import UIKit
 
     extension UIDevice {
-        public func systemVersion() -> Version? {
+        public var systemVersion: Version? {
             return Version(self.systemVersion())
         }
     }

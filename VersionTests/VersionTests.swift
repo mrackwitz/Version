@@ -97,7 +97,7 @@ class VersionTests: XCTestCase {
     
     #if os(iOS)
         func testDeviceSystemVersion() {
-            let deviceVersion : Version! = UIDevice.currentDevice().systemVersion()
+            let deviceVersion : Version! = UIDevice.currentDevice().systemVersion
             XCTAssert(deviceVersion > "7.0.0")
         }
     #endif

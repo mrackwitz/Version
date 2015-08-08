@@ -29,7 +29,7 @@ let version : Version = "1.2.3-alpha.1+B001"
 Versions can be compared between each other:
 
 ```swift
-let version : Version = UIDevice.currentDevice().systemVersion()
+let version : Version = UIDevice.currentDevice().systemVersion
 if version > "8.0" {
     // do something in a more amazing way
 } else if version > "7.0"
