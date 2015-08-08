@@ -9,13 +9,53 @@
 import Foundation
 
 
+/// Represents a version aligning to [SemVer 2.0.0](http://semver.org).
 public struct Version {
+    /// The major component of the version.
+    ///
+    /// - Note:
+    /// > Increment the MAJOR version when you make incompatible API changes.
+    ///
     public var major: Int
+    
+    /// An optional minor component of the version.
+    ///
+    /// - Note:
+    /// > Increment the MINOR version when you add functionality in a backwards-compatible manner.
+    ///
     public var minor: Int?
+    
+    /// An optional patch component of the version.
+    ///
+    /// - Note:
+    /// > Increment the PATCH version when make backwards-compatible bug fixes.
+    ///
     public var patch: Int?
+    
+    /// An optional prerelease component of the version.
+    ///
+    /// - Note:
+    /// > A pre-release version MAY be denoted by appending a hyphen and a series of dot separated
+    /// > identifiers immediately following the patch version. Identifiers MUST comprise only ASCII
+    /// > alphanumerics and hyphen [0-9A-Za-z-]. Identifiers MUST NOT be empty. Numeric identifiers
+    /// > MUST NOT include leading zeroes. Pre-release versions have a lower precedence than the
+    /// > associated normal version. A pre-release version indicates that the version is unstable
+    /// > and might not satisfy the intended compatibility requirements as denoted by its associated
+    /// > normal version.
+    ///
+    /// #### Examples:
+    ///
+    ///    * `1.0.0-alpha`
+    ///    * `1.0.0-alpha.1`
+    ///    * `1.0.0-0.3.7`
+    ///    * `1.0.0-x.7.z.92`
+    ///
     public var prerelease: String?
+    
+    /// An optional build component of the version.
     public var build: String?
     
+    /// Initialize a version from its components.
     public init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
         self.major = major
         self.minor = minor
@@ -32,6 +72,12 @@ public struct Version {
         self.build = version.build
     }
     
+    /// Parse a version number from a string representation.
+    ///
+    /// - Parameter value: the string representations
+    /// - Returns: the parsed version number or `nil`,
+    ///   if the version is invalid.
+    ///
     public static func parse(value: String) -> Version? {
         let parts = pattern.groupsOfFirstMatch(value)
         
@@ -48,6 +94,7 @@ public struct Version {
         }
     }
     
+    /// Initialize a version from its string representation.
     public init!(_ value: String) {
         self = Version.parse(value)!
     }
@@ -169,10 +216,12 @@ extension Version: StringLiteralConvertible {
 // MARK: Foundation Extensions
 
 extension NSBundle {
+    /// The marketing version number of the bundle.
     public var version : Version? {
         return self.versionFromInfoDicitionary(forKey: String(kCFBundleVersionKey))
     }
     
+    /// The short version number of the bundle.
     public var shortVersion : Version? {
         return self.versionFromInfoDicitionary(forKey: "CFBundleShortVersionString")
     }
@@ -186,6 +235,7 @@ extension NSBundle {
 }
 
 extension NSProcessInfo {
+    /// The version of the operating system on which the process is executing.
     @availability(iOS, introduced=8.0)
     public var operationSystemVersion: Version {
         let version : NSOperatingSystemVersion = self.operatingSystemVersion
@@ -204,6 +254,7 @@ extension NSProcessInfo {
     import UIKit
 
     extension UIDevice {
+        /// The current version of the operating system.
         public var systemVersion: Version? {
             return Version(self.systemVersion())
         }
