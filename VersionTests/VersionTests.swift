@@ -25,6 +25,15 @@ class VersionTests: XCTestCase {
         XCTAssertNotEqual(version, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.2", build: "B002"))
     }
     
+    func testHashable() {
+        XCTAssertEqual(version.hashValue,    Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001").hashValue)
+        XCTAssertNotEqual(version.hashValue, Version(major: 2, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001").hashValue)
+        XCTAssertNotEqual(version.hashValue, Version(major: 1, minor: 3, patch: 3, prerelease: "alpha.1", build: "B001").hashValue)
+        XCTAssertNotEqual(version.hashValue, Version(major: 1, minor: 2, patch: 4, prerelease: "alpha.1", build: "B001").hashValue)
+        XCTAssertNotEqual(version.hashValue, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.2", build: "B001").hashValue)
+        XCTAssertNotEqual(version.hashValue, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.2", build: "B002").hashValue)
+    }
+    
     func testStringLiteralConvertible() {
         let otherVersion : Version = "1.2.3-alpha.1+B001"
         XCTAssertEqual(version, otherVersion)
