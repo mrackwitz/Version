@@ -64,14 +64,6 @@ public struct Version {
         self.build = build
     }
     
-    public init(version: Version) {
-        self.major = version.major
-        self.minor = version.minor
-        self.patch = version.patch
-        self.prerelease = version.prerelease
-        self.build = version.build
-    }
-    
     /// Parse a version number from a string representation.
     ///
     /// - Parameter value: the string representations
