@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Version"
-  s.version          = "0.3.0"
+  s.version          = "0.4.0-alpha.1"
   s.summary          = "Version represents and compares semantic versions in Swift."
   s.description      = <<-DESC
                        Version is a Swift Library, which enables to represent and compare semantic version numbers.
@@ -20,6 +20,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
+  s.watchos.deployment_target = '2.0'
   s.requires_arc = true
 
   s.source_files = 'Version/*.swift'
