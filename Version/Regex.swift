@@ -15,11 +15,21 @@ extension String {
     }
     
     func substringWithRange(range: NSRange) -> String {
-        let rangeStart : String.Index = advance(self.startIndex, range.location)
-        return self.substringWithRange(rangeStart..<advance(rangeStart, range.length))
+        let rangeStart : String.Index = self.startIndex.advancedBy(range.location)
+        let rangeEnd = rangeStart.advancedBy(range.length)
+        return self.substringWithRange(rangeStart..<rangeEnd)
     }
 }
 
+
+extension NSTextCheckingResult {
+    func groupsInString(string: String) -> [String?] {
+        return (0..<self.numberOfRanges).map {
+            let range = self.rangeAtIndex($0)
+            return (range.location != NSNotFound) ? string.substringWithRange(range) : nil
+        }
+    }
+}
 
 struct Regex {
     let pattern: String
@@ -47,18 +57,23 @@ struct Regex {
         return matches
     }
     
-    func groupsOfFirstMatch(string: String, options: NSMatchingOptions = []) -> [String] {
-        let match = self.matcher.firstMatchInString(string, options: options, range: string.range)
-        var groups : [String] = []
-        if let match = match {
-            for i in 0..<match.numberOfRanges {
-                let range = match.rangeAtIndex(i)
-                if range.location != NSNotFound {
-                    groups.append(string.substringWithRange(range))
-                }
+    func matchingGroupsOf(string: String, options: NSMatchingOptions = []) -> [[String?]] {
+        var matches : [[String?]] = []
+        self.matcher.enumerateMatchesInString(string, options: options, range: string.range) {
+            (result: NSTextCheckingResult?, flags: NSMatchingFlags, stop: UnsafeMutablePointer<ObjCBool>) in
+            if let result = result {
+                matches.append(result.groupsInString(string))
             }
         }
-        return groups
+        return matches
+    }
+    
+    func groupsOfFirstMatch(string: String, options: NSMatchingOptions = []) -> [String?] {
+        if let match = self.matcher.firstMatchInString(string, options: options, range: string.range) {
+            return match.groupsInString(string)
+        } else {
+            return []
+        }
     }
 }
 
