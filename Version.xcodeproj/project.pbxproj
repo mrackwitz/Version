@@ -97,7 +97,8 @@
 				712D32BC19BD148C0093BAD7 /* Regex.swift */,
 				712D32A419BD06570093BAD7 /* Supporting Files */,
 			);
-			path = Version;
+			name = Version;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		712D32A419BD06570093BAD7 /* Supporting Files */ = {
@@ -349,7 +350,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Version/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.mariusrackwitz.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
