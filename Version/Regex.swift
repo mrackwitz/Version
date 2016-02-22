@@ -11,12 +11,12 @@ import Foundation
 
 extension String {
     var range: NSRange {
-        return NSMakeRange(0, count(self.utf16))
+        return NSMakeRange(0, self.utf16.count)
     }
     
     func substringWithRange(range: NSRange) -> String {
-        let rangeStart : String.Index = advance(self.startIndex, range.location)
-        return self.substringWithRange(rangeStart..<advance(rangeStart, range.length))
+        let rangeStart : String.Index = self.startIndex.advancedBy(range.location)
+        return self.substringWithRange(rangeStart..<rangeStart.advancedBy(range.length))
     }
 }
 
@@ -26,39 +26,45 @@ struct Regex {
     let options: NSRegularExpressionOptions
     let matcher: NSRegularExpression!
     
-    init?(pattern: String, options: NSRegularExpressionOptions = nil) {
-        var error: NSError?
-        self.init(pattern: pattern, options: options, error: &error)
+    init?(pattern: String, options: NSRegularExpressionOptions = []) {
+        self.init(pattern: pattern, options: options, error: nil)
         if self.matcher == nil {
             return nil
         }
     }
     
-    init(pattern: String, options: NSRegularExpressionOptions = nil, var error: NSErrorPointer? = nil) {
+    init(pattern: String, options: NSRegularExpressionOptions = [], error: NSErrorPointer? = nil) {
         self.pattern = pattern
         self.options = options
         var e: NSError?
-        self.matcher = NSRegularExpression(pattern: self.pattern, options: self.options, error: &e)
+        do {
+            self.matcher = try NSRegularExpression(pattern: self.pattern, options: self.options)
+        } catch let error as NSError {
+            e = error
+            self.matcher = nil
+        }
         if let pointer = error {
             pointer.memory = e
         }
     }
     
-    func match(string: String, options: NSMatchingOptions = nil) -> Bool {
+    func match(string: String, options: NSMatchingOptions = []) -> Bool {
         return self.matcher.numberOfMatchesInString(string, options: options, range: string.range) != 0
     }
     
-    func matchingsOf(string: String, options: NSMatchingOptions = nil) -> [String] {
+    func matchingsOf(string: String, options: NSMatchingOptions = []) -> [String] {
         var matches : [String] = []
         self.matcher.enumerateMatchesInString(string, options: options, range: string.range) {
-            (result: NSTextCheckingResult!, flags: NSMatchingFlags, stop: UnsafeMutablePointer<ObjCBool>) in
-            matches.append(string.substringWithRange(result.range))
+            (result: NSTextCheckingResult?, flags: NSMatchingFlags, stop: UnsafeMutablePointer<ObjCBool>) in
+            if let result = result {
+                matches.append(string.substringWithRange(result.range))
+            }
         }
         return matches
     }
     
-    func groupsOfFirstMatch(string: String, options: NSMatchingOptions = nil) -> [String] {
-        var match = self.matcher.firstMatchInString(string, options: options, range: string.range)
+    func groupsOfFirstMatch(string: String, options: NSMatchingOptions = []) -> [String] {
+        let match = self.matcher.firstMatchInString(string, options: options, range: string.range)
         var groups : [String] = []
         if let match = match {
             for i in 0..<match.numberOfRanges {

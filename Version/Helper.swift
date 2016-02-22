@@ -10,7 +10,7 @@ import Foundation
 
 
 extension Array {
-    func try(index: Int) -> T? {
+    func `try`(index: Int) -> Element? {
         if index >= 0 && index < count {
             return self[index]
         } else {
