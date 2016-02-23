@@ -29,3 +29,6 @@ DerivedData
 
 # Ruby
 .bundle
+
+# swiftpm
+.build

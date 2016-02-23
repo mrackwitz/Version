@@ -63,6 +63,10 @@ public struct Version {
         self.prerelease = prerelease
         self.build = build
     }
+
+    private static func OptionalInt(string: String?) -> Int? {
+        return string != nil ? Int(string!) : nil
+    }
     
     /// Parse a version number from a string representation.
     ///
@@ -73,13 +77,13 @@ public struct Version {
     public static func parse(value: String) -> Version? {
         let parts = pattern.groupsOfFirstMatch(value)
         
-        if let major = parts.try(1)?.toInt() {
+        if let major = OptionalInt(parts.`try`(1)) {
             return Version(
                 major: major,
-                minor: parts.try(2)?.toInt(),
-                patch: parts.try(3)?.toInt(),
-                prerelease: parts.try(4),
-                build: parts.try(5)
+                minor: OptionalInt(parts.`try`(2)),
+                patch: OptionalInt(parts.`try`(3)),
+                prerelease: parts.`try`(4),
+                build: parts.`try`(5)
             )
         } else {
             return nil
@@ -131,7 +135,7 @@ public func <(lhs: Version, rhs: Version) -> Bool {
             for (l, r) in comparables {
                 if l != r {
                     if numberPattern.match(l) && numberPattern.match(r) {
-                        return l.toInt() < r.toInt()
+                        return Int(l) < Int(r)
                     } else {
                         return l < r
                     }
@@ -156,22 +160,22 @@ extension Version : Hashable {
         let prereleaseHash = prerelease?.hashValue ?? 0
         let buildHash = build?.hashValue ?? 0
         let prime = 31
-        return reduce([majorHash, minorHash, patchHash, prereleaseHash, buildHash], 0) { $0 &* prime &+ $1 }
+        return [majorHash, minorHash, patchHash, prereleaseHash, buildHash].reduce(0) { $0 &* prime &+ $1 }
     }
 }
 
 
 // MARK: String Conversion
 
-extension Version : Printable {
+extension Version : CustomStringConvertible {
     public var description: String {
-        return "".join([
+        return [
             "\(major)",
             minor      != nil ? ".\(minor!)"      : "",
             patch      != nil ? ".\(patch!)"      : "",
             prerelease != nil ? "-\(prerelease!)" : "",
             build      != nil ? "+\(build!)"      : ""
-        ])
+        ].joinWithSeparator("")
     }
 }
 
@@ -228,7 +232,7 @@ extension NSBundle {
 
 extension NSProcessInfo {
     /// The version of the operating system on which the process is executing.
-    @availability(iOS, introduced=8.0)
+    @available(iOS, introduced=8.0)
     public var operationSystemVersion: Version {
         let version : NSOperatingSystemVersion = self.operatingSystemVersion
         return Version(
