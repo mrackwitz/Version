@@ -8,6 +8,8 @@
 
 import Foundation
 
+let strictVersionParser = VersionParser(strict: true)
+let lenientVersionParser = VersionParser(strict: false)
 
 /// Represents a version aligning to [SemVer 2.0.0](http://semver.org).
 public struct Version {
@@ -25,12 +27,24 @@ public struct Version {
     ///
     public var minor: Int?
     
+    /// Canonicalized form of minor component of the version.
+    ///
+    public var canonicalMinor: Int {
+        return self.minor ?? 0
+    }
+    
     /// An optional patch component of the version.
     ///
     /// - Note:
     /// > Increment the PATCH version when make backwards-compatible bug fixes.
     ///
     public var patch: Int?
+    
+    /// Canonicalized form of patch component of the version.
+    ///
+    public var canonicalPatch: Int {
+        return self.patch ?? 0
+    }
     
     /// An optional prerelease component of the version.
     ///
@@ -64,27 +78,28 @@ public struct Version {
         self.build = build
     }
     
-    /// Parse a version number from a string representation.
-    ///
-    /// - Parameter value: the string representations
-    /// - Returns: the parsed version number or `nil`,
-    ///   if the version is invalid.
-    ///
-    public static func parse(value: String) -> Version? {
-        let parts = pattern.groupsOfFirstMatch(value)
-        return parts[safe: 1].flatMap { Int($0) }.flatMap { (major: Int) in
-            var version = Version(major: major)
-            version.minor      = parts[safe: 2].flatMap { Int($0) }
-            version.patch      = parts[safe: 3].flatMap { Int($0) }
-            version.prerelease = parts[safe: 4]
-            version.build      = parts[safe: 5]
-            return version
+    /// Initialize a version from its string representation.
+    public init!(_ value: String) {
+        do {
+            let parser = VersionParser(strict: false)
+            self = try parser.parse(value)
+        } catch let error {
+            print("Error: Failed to parse version number '\(value)': \(error)")
+            return nil
         }
     }
     
-    /// Initialize a version from its string representation.
-    public init!(_ value: String) {
-        self = Version.parse(value)!
+    /// Canonicalize version by replacing nil components with their defaults
+    public mutating func canonicalize() {
+        self.minor = self.minor ?? 0
+        self.patch = self.patch ?? 0
+    }
+    
+    /// Create canonicalized copy
+    public func canonicalized() -> Version {
+        var copy = self
+        copy.canonicalize()
+        return copy
     }
 }
 
@@ -94,11 +109,19 @@ public struct Version {
 extension Version : Equatable {}
 
 public func ==(lhs: Version, rhs: Version) -> Bool {
-    return lhs.major == rhs.major
-        && lhs.minor == rhs.minor
-        && lhs.patch == rhs.patch
-        && lhs.prerelease == rhs.prerelease
-        && lhs.build == rhs.build
+    let equalMajor = lhs.major == rhs.major
+    let equalMinor = lhs.canonicalMinor == rhs.canonicalMinor
+    let equalPatch = lhs.canonicalPatch == rhs.canonicalPatch
+    let equalPrerelease = lhs.prerelease == rhs.prerelease
+    return equalMajor && equalMinor && equalPatch && equalPrerelease
+}
+
+public func ===(lhs: Version, rhs: Version) -> Bool {
+    return (lhs == rhs) && (lhs.build == rhs.build)
+}
+
+public func !==(lhs: Version, rhs: Version) -> Bool {
+    return !(lhs === rhs)
 }
 
 
@@ -106,13 +129,17 @@ public func ==(lhs: Version, rhs: Version) -> Bool {
 
 extension Version : Comparable {}
 
+public func <=(lhs: Version, rhs: Version) -> Bool {
+    return lhs < rhs || lhs == rhs
+}
+
 public func <(lhs: Version, rhs: Version) -> Bool {
     if (lhs.major < rhs.major
-     || lhs.minor < rhs.minor
-     || lhs.patch < rhs.patch) {
+     || lhs.canonicalMinor < rhs.canonicalMinor
+     || lhs.canonicalPatch < rhs.canonicalPatch) {
         return true
     }
-    
+
     switch (lhs.prerelease, rhs.prerelease) {
         case (.Some, .None):
             return true
@@ -126,7 +153,8 @@ public func <(lhs: Version, rhs: Version) -> Bool {
             let comparables = zip(lhsComponents, rhsComponents)
             for (l, r) in comparables {
                 if l != r {
-                    if numberPattern.match(l) && numberPattern.match(r) {
+                    let regex = lenientVersionParser.numberRegex
+                    if regex.match(l) && regex.match(r) {
                         return Int(l) < Int(r)
                     } else {
                         return l < r
@@ -137,8 +165,7 @@ public func <(lhs: Version, rhs: Version) -> Bool {
                 return lhsComponents.count < rhsComponents.count
             }
     }
-    
-    return lhs.build < rhs.build
+    return false
 }
 
 
@@ -146,13 +173,12 @@ public func <(lhs: Version, rhs: Version) -> Bool {
 
 extension Version : Hashable {
     public var hashValue: Int {
-        let majorHash = major.hashValue
-        let minorHash = minor?.hashValue ?? 0
-        let patchHash = patch?.hashValue ?? 0
-        let prereleaseHash = prerelease?.hashValue ?? 0
-        let buildHash = build?.hashValue ?? 0
+        let majorHash = self.major.hashValue
+        let minorHash = self.canonicalMinor.hashValue
+        let patchHash = self.canonicalPatch.hashValue
+        let prereleaseHash = self.prerelease?.hashValue ?? 0
         let prime = 31
-        return [majorHash, minorHash, patchHash, prereleaseHash, buildHash].reduce(0) { $0 &* prime &+ $1 }
+        return [majorHash, minorHash, patchHash, prereleaseHash].reduce(0) { $0 &* prime &+ $1 }
     }
 }
 
@@ -161,27 +187,21 @@ extension Version : Hashable {
 
 extension Version : CustomStringConvertible {
     public var description: String {
-        return "".join([
+        return [
             "\(major)",
             minor      != nil ? ".\(minor!)"      : "",
             patch      != nil ? ".\(patch!)"      : "",
             prerelease != nil ? "-\(prerelease!)" : "",
             build      != nil ? "+\(build!)"      : ""
-        ])
+        ].joinWithSeparator("")
     }
 }
-
-
-let pattern : Regex = "([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?"
-let numberPattern : Regex = "[0-9]+"
-let anchoredPattern = try! Regex(pattern: "/\\A\\s*(\(pattern.pattern))?\\s*\\z/")
 
 extension Version {
-    public static func valid(string: String) -> Bool {
-        return anchoredPattern.match(string)
+    public static func valid(string: String, strict: Bool = false) -> Bool {
+        return strictVersionParser.versionRegex.match(string)
     }
 }
-
 
 extension Version: StringLiteralConvertible {
     public typealias UnicodeScalarLiteralType = StringLiteralType
@@ -215,8 +235,12 @@ extension NSBundle {
     }
     
     func versionFromInfoDicitionary(forKey key: String) -> Version? {
-        if let bundleVersion = self.infoDictionary?[key] as? NSString {
-            return Version.parse(String(bundleVersion))
+        if let bundleVersion = self.infoDictionary?[key] as? String {
+            do {
+                return try lenientVersionParser.parse(bundleVersion)
+            } catch {
+                return nil
+            }
         }
         return nil
     }
