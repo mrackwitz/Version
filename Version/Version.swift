@@ -72,17 +72,13 @@ public struct Version {
     ///
     public static func parse(value: String) -> Version? {
         let parts = pattern.groupsOfFirstMatch(value)
-        
-        if let major = parts.try(1)?.toInt() {
-            return Version(
-                major: major,
-                minor: parts.try(2)?.toInt(),
-                patch: parts.try(3)?.toInt(),
-                prerelease: parts.try(4),
-                build: parts.try(5)
-            )
-        } else {
-            return nil
+        return parts[safe: 1].flatMap { Int($0) }.flatMap { (major: Int) in
+            var version = Version(major: major)
+            version.minor      = parts[safe: 2].flatMap { Int($0) }
+            version.patch      = parts[safe: 3].flatMap { Int($0) }
+            version.prerelease = parts[safe: 4]
+            version.build      = parts[safe: 5]
+            return version
         }
     }
     
@@ -131,7 +127,7 @@ public func <(lhs: Version, rhs: Version) -> Bool {
             for (l, r) in comparables {
                 if l != r {
                     if numberPattern.match(l) && numberPattern.match(r) {
-                        return l.toInt() < r.toInt()
+                        return Int(l) < Int(r)
                     } else {
                         return l < r
                     }
@@ -156,14 +152,14 @@ extension Version : Hashable {
         let prereleaseHash = prerelease?.hashValue ?? 0
         let buildHash = build?.hashValue ?? 0
         let prime = 31
-        return reduce([majorHash, minorHash, patchHash, prereleaseHash, buildHash], 0) { $0 &* prime &+ $1 }
+        return [majorHash, minorHash, patchHash, prereleaseHash, buildHash].reduce(0) { $0 &* prime &+ $1 }
     }
 }
 
 
 // MARK: String Conversion
 
-extension Version : Printable {
+extension Version : CustomStringConvertible {
     public var description: String {
         return "".join([
             "\(major)",
@@ -176,9 +172,9 @@ extension Version : Printable {
 }
 
 
-let pattern = Regex(pattern: "([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?")!
-let numberPattern = Regex(pattern: "[0-9]+")!
-let anchoredPattern = Regex(pattern: "/\\A\\s*(\(pattern.pattern))?\\s*\\z/")!
+let pattern : Regex = "([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?"
+let numberPattern : Regex = "[0-9]+"
+let anchoredPattern = try! Regex(pattern: "/\\A\\s*(\(pattern.pattern))?\\s*\\z/")
 
 extension Version {
     public static func valid(string: String) -> Bool {
@@ -220,7 +216,7 @@ extension NSBundle {
     
     func versionFromInfoDicitionary(forKey key: String) -> Version? {
         if let bundleVersion = self.infoDictionary?[key] as? NSString {
-            return Version(String(bundleVersion))
+            return Version.parse(String(bundleVersion))
         }
         return nil
     }
@@ -228,7 +224,7 @@ extension NSBundle {
 
 extension NSProcessInfo {
     /// The version of the operating system on which the process is executing.
-    @availability(iOS, introduced=8.0)
+    @available(iOS, introduced=8.0)
     public var operationSystemVersion: Version {
         let version : NSOperatingSystemVersion = self.operatingSystemVersion
         return Version(
