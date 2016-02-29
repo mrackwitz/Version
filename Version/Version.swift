@@ -267,7 +267,7 @@ extension NSProcessInfo {
 
     extension UIDevice {
         /// The current version of the operating system.
-        public var systemVersion: Version? {
+        public func systemVersion() -> Version? {
             return Version(self.systemVersion())
         }
     }
