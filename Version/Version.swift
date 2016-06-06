@@ -89,6 +89,15 @@ public struct Version {
         }
     }
     
+    public init!(_ value: Version) {
+        do {
+            self = try value
+        } catch let error {
+            print("Error: Failed to set version '\(value)': \(error)")
+            return nil
+        }
+    }
+    
     /// Canonicalize version by replacing nil components with their defaults
     public mutating func canonicalize() {
         self.minor = self.minor ?? 0
@@ -248,7 +257,6 @@ extension NSBundle {
 
 extension NSProcessInfo {
     /// The version of the operating system on which the process is executing.
-    @available(OSX, introduced=10.10)
     @available(iOS, introduced=8.0)
     public var operationSystemVersion: Version {
         let version : NSOperatingSystemVersion = self.operatingSystemVersion
@@ -269,7 +277,7 @@ extension NSProcessInfo {
     extension UIDevice {
         /// The current version of the operating system.
         public func systemVersion() -> Version? {
-            return Version(self.systemVersion())
+            return Version(self.systemVersion()!) //Is it recursive?
         }
     }
 
