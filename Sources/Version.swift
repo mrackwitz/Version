@@ -134,9 +134,10 @@ public func <=(lhs: Version, rhs: Version) -> Bool {
 }
 
 public func <(lhs: Version, rhs: Version) -> Bool {
-    if (lhs.major < rhs.major
-     || lhs.canonicalMinor < rhs.canonicalMinor
-     || lhs.canonicalPatch < rhs.canonicalPatch) {
+    let lhsValue = lhs.major * 10000 + lhs.canonicalMinor * 100 + lhs.canonicalPatch
+    let rhsValue = rhs.major * 10000 + rhs.canonicalMinor * 100 + rhs.canonicalPatch
+    
+    if (lhsValue < rhsValue) {
         return true
     }
 
