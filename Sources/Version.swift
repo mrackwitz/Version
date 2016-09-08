@@ -7,6 +7,17 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 let strictVersionParser = VersionParser(strict: true)
 let lenientVersionParser = VersionParser(strict: false)
@@ -141,15 +152,15 @@ public func <(lhs: Version, rhs: Version) -> Bool {
     }
 
     switch (lhs.prerelease, rhs.prerelease) {
-        case (.Some, .None):
+        case (.some, .none):
             return true
-        case (.None, .Some):
+        case (.none, .some):
             return false
-        case (.None, .None):
+        case (.none, .none):
             break;
-        case (.Some(let lpre), .Some(let rpre)):
-            let lhsComponents = lpre.componentsSeparatedByString(".")
-            let rhsComponents = rpre.componentsSeparatedByString(".")
+        case (.some(let lpre), .some(let rpre)):
+            let lhsComponents = lpre.components(separatedBy: ".")
+            let rhsComponents = rpre.components(separatedBy: ".")
             let comparables = zip(lhsComponents, rhsComponents)
             for (l, r) in comparables {
                 if l != r {
@@ -193,17 +204,17 @@ extension Version : CustomStringConvertible {
             patch      != nil ? ".\(patch!)"      : "",
             prerelease != nil ? "-\(prerelease!)" : "",
             build      != nil ? "+\(build!)"      : ""
-        ].joinWithSeparator("")
+        ].joined(separator: "")
     }
 }
 
 extension Version {
-    public static func valid(string: String, strict: Bool = false) -> Bool {
+    public static func valid(_ string: String, strict: Bool = false) -> Bool {
         return strictVersionParser.versionRegex.match(string)
     }
 }
 
-extension Version: StringLiteralConvertible {
+extension Version: ExpressibleByStringLiteral {
     public typealias UnicodeScalarLiteralType = StringLiteralType
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
@@ -223,7 +234,7 @@ extension Version: StringLiteralConvertible {
 
 // MARK: Foundation Extensions
 
-extension NSBundle {
+extension Bundle {
     /// The marketing version number of the bundle.
     public var version : Version? {
         return self.versionFromInfoDicitionary(forKey: String(kCFBundleVersionKey))
@@ -246,12 +257,12 @@ extension NSBundle {
     }
 }
 
-extension NSProcessInfo {
+extension ProcessInfo {
     /// The version of the operating system on which the process is executing.
-    @available(OSX, introduced=10.10)
-    @available(iOS, introduced=8.0)
+    @available(OSX, introduced: 10.10)
+    @available(iOS, introduced: 8.0)
     public var operationSystemVersion: Version {
-        let version : NSOperatingSystemVersion = self.operatingSystemVersion
+        let version : OperatingSystemVersion = self.operatingSystemVersion
         return Version(
             major: version.majorVersion,
             minor: version.minorVersion,
