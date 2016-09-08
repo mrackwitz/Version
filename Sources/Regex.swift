@@ -16,7 +16,7 @@ extension String {
     
     func substringWithRange(_ range: NSRange) -> String {
         let rangeStart : String.Index = self.characters.index(self.startIndex, offsetBy: range.location)
-        let rangeEnd = <#T##String.CharacterView corresponding to `rangeStart`##String.CharacterView#>.index(rangeStart, offsetBy: range.length)
+        let rangeEnd = self.characters.index(rangeStart, offsetBy: range.length)
         return self.substring(with: rangeStart..<rangeEnd)
     }
 }
