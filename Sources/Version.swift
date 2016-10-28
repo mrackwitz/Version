@@ -134,10 +134,10 @@ public func <=(lhs: Version, rhs: Version) -> Bool {
 }
 
 public func <(lhs: Version, rhs: Version) -> Bool {
-    if (lhs.major < rhs.major
-     || lhs.canonicalMinor < rhs.canonicalMinor
-     || lhs.canonicalPatch < rhs.canonicalPatch) {
-        return true
+    if (lhs.major < rhs.major) { return true }
+    else if (lhs.major == rhs.major) {
+        if (lhs.minor ?? 0 < rhs.minor ?? 0) { return true }
+        else if (lhs.minor ?? 0 == rhs.minor ?? 0 && lhs.patch ?? 0 < rhs.patch ?? 0) { return true }
     }
 
     switch (lhs.prerelease, rhs.prerelease) {

@@ -85,6 +85,9 @@ class VersionTests: XCTestCase {
             let range = (index + 1)..<(versions.count)
             for greater in versions[range] {
                 XCTAssert(less <= greater)
+              if !(less <= greater) {
+                print("wtf \(less) \(greater)")
+              }
             }
         }
     }
@@ -134,10 +137,16 @@ class VersionTests: XCTestCase {
         XCTAssertEqual(testBundle.shortVersion!, Version(major: 1, minor: 2, patch: 3))
         XCTAssertEqual(testBundle.version!,      version)
     }
-    
+
+    @available(OSX, introduced=10.10)
+    @available(iOS, introduced=8.0)
     func testProcessInfoVersion() {
         let processVersion : Version = NSProcessInfo.processInfo().operationSystemVersion
+      #if os(iOS)
         XCTAssert(processVersion > "7.0.0")
+      #elseif os(OSX)
+        XCTAssert(processVersion > "10.8.0")
+      #endif
     }
     
 }
