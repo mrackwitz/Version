@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum VersionParserError: ErrorType {
+enum VersionParserError: Error {
     case MissingMinorComponent
     case MissingPatchComponent
     case InvalidComponents
@@ -19,7 +19,7 @@ enum VersionParserError: ErrorType {
 
 public struct VersionParser {
     
-    static func versionPattern(strict strict: Bool, anchored: Bool) -> Regex {
+    static func versionPattern(strict: Bool, anchored: Bool) -> Regex {
         let pattern: String
         if strict {
             pattern = "(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?"
@@ -29,7 +29,7 @@ public struct VersionParser {
         return try! Regex(pattern: (anchored) ? "\\A\(pattern)?\\z" : pattern)
     }
     
-    static func numberPattern(strict strict: Bool, anchored: Bool) -> Regex {
+    static func numberPattern(strict: Bool, anchored: Bool) -> Regex {
         let pattern: String
         if strict {
             pattern = "0|[1-9][0-9]*"
@@ -50,8 +50,8 @@ public struct VersionParser {
     }
     
     public func parse(string: String) throws -> Version {
-        let components = self.versionRegex.groupsOfFirstMatch(string)
-        return try self.parse(components)
+        let components = self.versionRegex.groupsOfFirstMatch(string: string)
+        return try self.parse(components: components)
     }
     
     public func parse(components: [String?]) throws -> Version {

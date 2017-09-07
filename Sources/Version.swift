@@ -82,7 +82,7 @@ public struct Version {
     public init!(_ value: String) {
         do {
             let parser = VersionParser(strict: false)
-            self = try parser.parse(value)
+            self = try parser.parse(string: value)
         } catch let error {
             print("Error: Failed to parse version number '\(value)': \(error)")
             return nil
@@ -141,21 +141,21 @@ public func <(lhs: Version, rhs: Version) -> Bool {
     }
 
     switch (lhs.prerelease, rhs.prerelease) {
-        case (.Some, .None):
+    case (.some, .none):
             return true
-        case (.None, .Some):
+    case (.none, .some):
             return false
-        case (.None, .None):
+    case (.none, .none):
             break;
-        case (.Some(let lpre), .Some(let rpre)):
-            let lhsComponents = lpre.componentsSeparatedByString(".")
-            let rhsComponents = rpre.componentsSeparatedByString(".")
+    case (.some(let lpre), .some(let rpre)):
+        let lhsComponents = lpre.components(separatedBy: ".")
+        let rhsComponents = rpre.components(separatedBy: ".")
             let comparables = zip(lhsComponents, rhsComponents)
             for (l, r) in comparables {
                 if l != r {
                     let regex = lenientVersionParser.numberRegex
-                    if regex.match(l) && regex.match(r) {
-                        return Int(l) < Int(r)
+                    if regex.match(string: l) && regex.match(string: r) {
+                        return (Int(l) ?? 0) < (Int(r) ?? 0)
                     } else {
                         return l < r
                     }
@@ -193,17 +193,17 @@ extension Version : CustomStringConvertible {
             patch      != nil ? ".\(patch!)"      : "",
             prerelease != nil ? "-\(prerelease!)" : "",
             build      != nil ? "+\(build!)"      : ""
-        ].joinWithSeparator("")
+            ].joined(separator: "")
     }
 }
 
 extension Version {
     public static func valid(string: String, strict: Bool = false) -> Bool {
-        return strictVersionParser.versionRegex.match(string)
+        return strictVersionParser.versionRegex.match(string: string)
     }
 }
 
-extension Version: StringLiteralConvertible {
+extension Version: ExpressibleByStringLiteral {
     public typealias UnicodeScalarLiteralType = StringLiteralType
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
@@ -220,10 +220,9 @@ extension Version: StringLiteralConvertible {
     }
 }
 
-
 // MARK: Foundation Extensions
 
-extension NSBundle {
+extension Bundle {
     /// The marketing version number of the bundle.
     public var version : Version? {
         return self.versionFromInfoDicitionary(forKey: String(kCFBundleVersionKey))
@@ -235,23 +234,26 @@ extension NSBundle {
     }
     
     func versionFromInfoDicitionary(forKey key: String) -> Version? {
-        if let bundleVersion = self.infoDictionary?[key] as? String {
-            do {
-                return try lenientVersionParser.parse(bundleVersion)
-            } catch {
-                return nil
-            }
+        guard let dictionary = self.infoDictionary else {
+            return nil
         }
-        return nil
+        guard let bundleVersion = dictionary[key] as? String else {
+            return nil
+        }
+        do {
+            return try lenientVersionParser.parse(string: bundleVersion)
+        } catch {
+            return nil
+        }
     }
 }
 
-extension NSProcessInfo {
+extension ProcessInfo {
     /// The version of the operating system on which the process is executing.
-    @available(OSX, introduced=10.10)
-    @available(iOS, introduced=8.0)
+    @available(OSX, introduced: 10.10)
+    @available(iOS, introduced: 8.0)
     public var operationSystemVersion: Version {
-        let version : NSOperatingSystemVersion = self.operatingSystemVersion
+        let version : OperatingSystemVersion = self.operatingSystemVersion
         return Version(
             major: version.majorVersion,
             minor: version.minorVersion,
