@@ -127,7 +127,7 @@ class VersionParserTests: XCTestCase {
         let parser = VersionParser(strict: true)
         for (string, version) in zip(self.validStrings, self.validVersions) {
             do {
-                let parsedVersion = try parser.parse(string)
+                let parsedVersion = try parser.parse(string: string)
                 XCTAssert(parsedVersion === version)
             } catch let error {
                 XCTFail("\(error)")
@@ -138,24 +138,14 @@ class VersionParserTests: XCTestCase {
     func testStrictParsingOfSemiValidStrings() {
         let parser = VersionParser(strict: true)
         for string in self.semiValidStrings {
-            do {
-                try parser.parse(string)
-                XCTFail()
-            } catch {
-                
-            }
+            XCTAssertThrowsError(try parser.parse(string: string))
         }
     }
     
     func testStrictParsingOfInvalidStrings() {
         let parser = VersionParser(strict: true)
         for string in self.invalidStrings {
-            do {
-                try parser.parse(string)
-                XCTFail()
-            } catch {
-                
-            }
+            XCTAssertThrowsError(try parser.parse(string: string))
         }
     }
     
@@ -163,7 +153,7 @@ class VersionParserTests: XCTestCase {
         let parser = VersionParser(strict: false)
         for (string, version) in zip(self.validStrings, self.validVersions) {
             do {
-                let parsedVersion = try parser.parse(string)
+                let parsedVersion = try parser.parse(string: string)
                 XCTAssert(parsedVersion === version)
             } catch let error {
                 XCTFail("\(error)")
@@ -175,7 +165,7 @@ class VersionParserTests: XCTestCase {
         let parser = VersionParser(strict: false)
         for (string, version) in zip(self.semiValidStrings, self.semiValidVersions) {
             do {
-                let parsedVersion = try parser.parse(string)
+                let parsedVersion = try parser.parse(string: string)
                 XCTAssert(parsedVersion === version)
             } catch let error {
                 XCTFail("\(error)")
@@ -186,12 +176,7 @@ class VersionParserTests: XCTestCase {
     func testLenientParsingOfInvalidStrings() {
         let parser = VersionParser(strict: false)
         for string in self.invalidStrings {
-            do {
-                try parser.parse(string)
-                XCTFail()
-            } catch {
-                
-            }
+            XCTAssertThrowsError(try parser.parse(string: string))
         }
     }
 }
