@@ -18,25 +18,41 @@ enum VersionParserError: Error {
 }
 
 public struct VersionParser {
-    
     static func versionPattern(strict: Bool, anchored: Bool) -> Regex {
-        let pattern: String
+        let number = VersionParser.numberPatternString(strict: strict)
+        let version: String
         if strict {
-            pattern = "(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?"
+            version = "(\(number))\\.(\(number))\\.(\(number))"
         } else {
-            pattern = "([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?"
+            version = "(\(number))(?:\\.(\(number)))?(?:\\.(\(number)))?"
         }
-        return try! Regex(pattern: (anchored) ? "\\A\(pattern)?\\z" : pattern)
+        let prerelease = "(?:-([0-9A-Za-z-.]+))?(?:\\+([0-9A-Za-z-]+))?"
+        let pattern: String
+        if anchored {
+            pattern = "\\A\(version + prerelease)?\\z"
+        } else {
+            pattern = version + prerelease
+        }
+        return try! Regex(pattern: pattern)
+    }
+    
+    private static func numberPatternString(strict: Bool) -> String {
+        if strict {
+            return "0|[1-9][0-9]*"
+        } else {
+            return "[0-9]+"
+        }
     }
     
     static func numberPattern(strict: Bool, anchored: Bool) -> Regex {
+        let numberPattern = VersionParser.numberPatternString(strict: strict)
         let pattern: String
-        if strict {
-            pattern = "0|[1-9][0-9]*"
+        if anchored {
+            pattern = "\\A\(numberPattern)?\\z"
         } else {
-            pattern = "[0-9]+"
+            pattern = numberPattern
         }
-        return try! Regex(pattern: (anchored) ? "\\A\(pattern)?\\z" : pattern)
+        return try! Regex(pattern: pattern)
     }
     
     let strict: Bool
