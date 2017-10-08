@@ -8,9 +8,6 @@
 
 import Foundation
 
-let strictVersionParser = VersionParser(strict: true)
-let lenientVersionParser = VersionParser(strict: false)
-
 /// Represents a version aligning to [SemVer 2.0.0](http://semver.org).
 public struct Version {
     /// The major component of the version.
@@ -68,6 +65,9 @@ public struct Version {
     
     /// An optional build component of the version.
     public var build: String?
+
+    fileprivate static let strictParser = VersionParser(strict: true)
+    fileprivate static let lenientParser = VersionParser(strict: false)
     
     /// Initialize a version from its components.
     public init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
@@ -101,6 +101,35 @@ public struct Version {
         copy.canonicalize()
         return copy
     }
+
+    fileprivate static func compare<T: Comparable>(lhs: T, rhs: T) -> ComparisonResult {
+        if lhs < rhs {
+            return .orderedAscending
+        } else if lhs > rhs {
+            return .orderedDescending
+        } else {
+            return .orderedSame
+        }
+    }
+
+    fileprivate static func compareNumeric(lhs: String, rhs: String) -> ComparisonResult {
+        let lhsComponents = lhs.components(separatedBy: ".")
+        let rhsComponents = rhs.components(separatedBy: ".")
+        let comparables = zip(lhsComponents, rhsComponents)
+        let firstDifferentComponent = comparables.first { $0.0 != $0.1 }
+        if let (l, r) = firstDifferentComponent {
+            let regex = Version.lenientParser.numberRegex
+            if regex.match(string: l) && regex.match(string: r) {
+                return self.compare(lhs: Int(l) ?? 0, rhs: Int(r) ?? 0)
+            } else {
+                return self.compare(lhs: l, rhs: r)
+            }
+        }
+        if lhsComponents.count != rhsComponents.count {
+            return self.compare(lhs: lhsComponents.count, rhs: rhsComponents.count)
+        }
+        return .orderedSame
+    }
 }
 
 
@@ -129,15 +158,20 @@ public func !==(lhs: Version, rhs: Version) -> Bool {
 
 extension Version : Comparable {}
 
-public func <=(lhs: Version, rhs: Version) -> Bool {
-    return lhs < rhs || lhs == rhs
-}
-
 public func <(lhs: Version, rhs: Version) -> Bool {
-    if (lhs.major < rhs.major
-     || lhs.canonicalMinor < rhs.canonicalMinor
-     || lhs.canonicalPatch < rhs.canonicalPatch) {
-        return true
+    let majorComparison = Version.compare(lhs: lhs.major, rhs: rhs.major)
+    if majorComparison != .orderedSame {
+        return majorComparison == .orderedAscending
+    }
+
+    let minorComparison = Version.compare(lhs: lhs.canonicalMinor, rhs: rhs.canonicalMinor)
+    if minorComparison != .orderedSame {
+        return minorComparison == .orderedAscending
+    }
+
+    let patchComparison = Version.compare(lhs: lhs.canonicalPatch, rhs: rhs.canonicalPatch)
+    if patchComparison != .orderedSame {
+        return patchComparison == .orderedAscending
     }
 
     switch (lhs.prerelease, rhs.prerelease) {
@@ -146,26 +180,11 @@ public func <(lhs: Version, rhs: Version) -> Bool {
     case (.none, .some):
             return false
     case (.none, .none):
-            break;
+            return false
     case (.some(let lpre), .some(let rpre)):
-        let lhsComponents = lpre.components(separatedBy: ".")
-        let rhsComponents = rpre.components(separatedBy: ".")
-            let comparables = zip(lhsComponents, rhsComponents)
-            for (l, r) in comparables {
-                if l != r {
-                    let regex = lenientVersionParser.numberRegex
-                    if regex.match(string: l) && regex.match(string: r) {
-                        return (Int(l) ?? 0) < (Int(r) ?? 0)
-                    } else {
-                        return l < r
-                    }
-                }
-            }
-            if lhsComponents.count != rhsComponents.count {
-                return lhsComponents.count < rhsComponents.count
-            }
+        let prereleaseComparison = Version.compareNumeric(lhs: lpre, rhs: rpre)
+        return prereleaseComparison == .orderedAscending
     }
-    return false
 }
 
 
@@ -199,7 +218,7 @@ extension Version : CustomStringConvertible {
 
 extension Version {
     public static func valid(string: String, strict: Bool = false) -> Bool {
-        return strictVersionParser.versionRegex.match(string: string)
+        return Version.strictParser.versionRegex.match(string: string)
     }
 }
 
@@ -241,7 +260,7 @@ extension Bundle {
             return nil
         }
         do {
-            return try lenientVersionParser.parse(string: bundleVersion)
+            return try Version.lenientParser.parse(string: bundleVersion)
         } catch {
             return nil
         }

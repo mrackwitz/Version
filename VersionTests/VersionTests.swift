@@ -55,15 +55,16 @@ class VersionTests: XCTestCase {
     func testComparableForIgnoredBuild() {
         let a = Version("1.0.0-alpha+buildA")!
         let b = Version("1.0.0-alpha+buildB")!
-        XCTAssertTrue(a == b)
-        XCTAssertTrue(a <= b)
-        XCTAssertTrue(a >= b)
-        XCTAssertFalse(a < b)
-        XCTAssertFalse(a > b)
+        XCTAssertEqual(a, b)
+        XCTAssertLessThanOrEqual(a, b)
+        XCTAssertGreaterThanOrEqual(a, b)
     }
-    
+
     func testComparable() {
         let versions = [
+            Version("0.0.5-alpha"),
+            Version("0.0.5"),
+            Version("0.5.0"),
             Version("1.0.0-alpha"),
             Version("1.0.0-alpha+B001"),
             Version("1.0.0"),
@@ -79,12 +80,20 @@ class VersionTests: XCTestCase {
             Version("1.2.3-alpha"),
             Version("1.2.3-alpha+B001"),
             Version("1.2.3"),
-            Version("1.2.3+B001")
+            Version("1.2.3+B001"),
+            Version("5.4.3"),
         ].map { $0! }
-        for (index, less) in versions.enumerated() {
-            let range = (index + 1)..<(versions.count)
-            for greater in versions[range] {
-                XCTAssert(less <= greater)
+        for (index, greater) in versions.enumerated() {
+            let range = 0..<index
+            for less in versions[range] {
+                XCTAssertLessThanOrEqual(less, greater)
+                XCTAssertGreaterThanOrEqual(greater, less)
+
+                XCTAssertEqual(greater > less, less < greater)
+                XCTAssertEqual(greater < less, less > greater)
+                XCTAssertEqual(greater >= less, less <= greater)
+                XCTAssertEqual(greater <= less, less >= greater)
+                XCTAssertEqual(greater == less, less == greater)
             }
         }
     }
@@ -94,17 +103,9 @@ class VersionTests: XCTestCase {
         let majorMinor = Version("1.0-alpha")!
         let majorMinorPatch = Version("1.0.0-alpha")!
         
-        XCTAssertTrue(major == majorMinorPatch)
-        XCTAssertTrue(major == majorMinor)
-        XCTAssertTrue(majorMinor == majorMinorPatch)
-        
-        XCTAssertFalse(major < majorMinorPatch)
-        XCTAssertFalse(major < majorMinor)
-        XCTAssertFalse(majorMinor < majorMinorPatch)
-        
-        XCTAssertFalse(major > majorMinorPatch)
-        XCTAssertFalse(major > majorMinor)
-        XCTAssertFalse(majorMinor > majorMinorPatch)
+        XCTAssertEqual(major, majorMinorPatch)
+        XCTAssertEqual(major, majorMinor)
+        XCTAssertEqual(majorMinor, majorMinorPatch)
     }
     
     func testComparableForPrereleases() {
@@ -118,13 +119,13 @@ class VersionTests: XCTestCase {
         // non-numeric identifiers. A larger set of pre-release fields has a
         // higher precedence than a smaller set, if all of the preceding
         // identifiers are equal. Example:
-        XCTAssert(Version("1.0.0-alpha")      < Version("1.0.0-alpha.1"))
-        XCTAssert(Version("1.0.0-alpha.1")    < Version("1.0.0-alpha.beta"))
-        XCTAssert(Version("1.0.0-alpha.beta") < Version("1.0.0-beta"))
-        XCTAssert(Version("1.0.0-beta")       < Version("1.0.0-beta.2"))
-        XCTAssert(Version("1.0.0-beta.2")     < Version("1.0.0-beta.11"))
-        XCTAssert(Version("1.0.0-beta.11")    < Version("1.0.0-rc.1"))
-        XCTAssert(Version("1.0.0-rc.1")       < Version("1.0.0"))
+        XCTAssertLessThan(Version("1.0.0-alpha"),      Version("1.0.0-alpha.1"))
+        XCTAssertLessThan(Version("1.0.0-alpha.1"),    Version("1.0.0-alpha.beta"))
+        XCTAssertLessThan(Version("1.0.0-alpha.beta"), Version("1.0.0-beta"))
+        XCTAssertLessThan(Version("1.0.0-beta"),       Version("1.0.0-beta.2"))
+        XCTAssertLessThan(Version("1.0.0-beta.2"),     Version("1.0.0-beta.11"))
+        XCTAssertLessThan(Version("1.0.0-beta.11"),    Version("1.0.0-rc.1"))
+        XCTAssertLessThan(Version("1.0.0-rc.1"),       Version("1.0.0"))
     }
     
     func testBundleVersion() {
@@ -132,12 +133,12 @@ class VersionTests: XCTestCase {
         let path = mainBundle.path(forResource: "Test", ofType: "bundle")
         let testBundle = Bundle(path: path!)!
         XCTAssertEqual(testBundle.shortVersion!, Version(major: 1, minor: 2, patch: 3))
-        XCTAssertEqual(testBundle.version!,      version)
+        XCTAssertEqual(testBundle.version!, version)
     }
     
     func testProcessInfoVersion() {
         let processVersion : Version = ProcessInfo.processInfo.operationSystemVersion
-        XCTAssert(processVersion > "7.0.0")
+        XCTAssertGreaterThan(processVersion, "7.0.0")
     }
     
 }
