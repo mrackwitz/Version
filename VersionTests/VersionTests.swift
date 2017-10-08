@@ -125,6 +125,8 @@ class VersionTests: XCTestCase {
         XCTAssert(Version("1.0.0-beta.2")     < Version("1.0.0-beta.11"))
         XCTAssert(Version("1.0.0-beta.11")    < Version("1.0.0-rc.1"))
         XCTAssert(Version("1.0.0-rc.1")       < Version("1.0.0"))
+        XCTAssert(Version("1.0")              < Version("10.0.0"))
+        XCTAssert(Version("0.0.1")            < Version("1.0"))
     }
     
     func testBundleVersion() {
