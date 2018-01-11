@@ -24,7 +24,7 @@ extension String {
 extension NSTextCheckingResult {
     func groupsInString(string: String) -> [String?] {
         return (0..<self.numberOfRanges).map {
-            let range = self.rangeAt($0)
+            let range = self.range(at: $0)
             return (range.location != NSNotFound) ? string.substringWithRange(range: range) : nil
         }
     }
