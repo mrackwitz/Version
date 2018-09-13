@@ -240,13 +240,30 @@ extension Version: ExpressibleByStringLiteral {
 }
 
 extension Version: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case major
+        case minor
+        case patch
+        case prerelease
+        case build
+    }
+
     public init(from decoder: Decoder) throws {
-        self.init(try decoder.singleValueContainer().decode(String.self))
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.init(major: try container.decode(Int.self, forKey: .major),
+                  minor: try container.decodeIfPresent(Int.self, forKey: .minor),
+                  patch: try container.decodeIfPresent(Int.self, forKey: .patch),
+                  prerelease: try container.decodeIfPresent(String.self, forKey: .prerelease),
+                  build: try container.decodeIfPresent(String.self, forKey: .build))
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(description)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(major, forKey: .major)
+        try container.encodeIfPresent(minor, forKey: .minor)
+        try container.encodeIfPresent(patch, forKey: .patch)
+        try container.encodeIfPresent(prerelease, forKey: .prerelease)
+        try container.encodeIfPresent(build, forKey: .build)
     }
 }
 
