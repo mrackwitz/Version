@@ -239,6 +239,17 @@ extension Version: ExpressibleByStringLiteral {
     }
 }
 
+extension Version: Codable {
+    public init(from decoder: Decoder) throws {
+        self.init(try decoder.singleValueContainer().decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(description)
+    }
+}
+
 // MARK: Foundation Extensions
 
 extension Bundle {
