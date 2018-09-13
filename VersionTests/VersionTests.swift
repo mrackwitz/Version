@@ -127,6 +127,27 @@ class VersionTests: XCTestCase {
         XCTAssertLessThan(Version("1.0.0-beta.11"),    Version("1.0.0-rc.1"))
         XCTAssertLessThan(Version("1.0.0-rc.1"),       Version("1.0.0"))
     }
+
+    func testCodable() {
+        let version = Version("1.2.3-alpha.1+B001")!
+        let encoder = JSONEncoder()
+        let data: Data
+        do {
+            data = try encoder.encode(version)
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+
+        let decoder = JSONDecoder()
+        let decodedVersion: Version
+        do {
+            decodedVersion = try decoder.decode(Version.self, from: data)
+            XCTAssertEqual(version, decodedVersion)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
     
     func testBundleVersion() {
         let mainBundle = Bundle(for: VersionTests.self)
