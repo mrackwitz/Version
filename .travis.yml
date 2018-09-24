@@ -5,6 +5,11 @@ language: swift
 
 before_install:
  - rvm use system
+ 
+ - brew update
+ - brew install openssl
+
+ - sudo gem update --system
  - sudo gem install bundler
  - sudo gem install cocoapods --pre
  - sudo gem install xcpretty
