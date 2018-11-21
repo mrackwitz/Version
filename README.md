@@ -70,12 +70,20 @@ for definitions, which have been passed to the compiler build setting
 
 ## Installation
 
+### Cocoapods
+
 Version is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following lines to your Podfile:
 
 ```ruby
 use_frameworks!
 pod 'Version'
+```
+
+### Carthage
+
+```ruby
+github "mrackwitz/Version"
 ```
 
 
