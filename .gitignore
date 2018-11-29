@@ -30,5 +30,7 @@ DerivedData
 # Ruby
 .bundle
 
+.DS_Store
+
 # swiftpm
 .build
