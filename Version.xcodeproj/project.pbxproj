@@ -13,7 +13,6 @@
 		BF3BF6FF2022088A00A64A0B /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3BF6FB2022088A00A64A0B /* Regex.swift */; };
 		BF3BF7012022088A00A64A0B /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3BF6FD2022088A00A64A0B /* Version.swift */; };
 		BF3BF7022022088A00A64A0B /* VersionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3BF6FE2022088A00A64A0B /* VersionParser.swift */; };
-		BF3BF7042022138300A64A0B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF3BF7032022138300A64A0B /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,9 +26,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		29EA596B1B5A448E002D767E /* UniversalFramework_Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = UniversalFramework_Base.xcconfig; sourceTree = "<group>"; };
-		29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = UniversalFramework_Framework.xcconfig; sourceTree = "<group>"; };
-		29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = UniversalFramework_Test.xcconfig; sourceTree = "<group>"; };
 		712D32A119BD06570093BAD7 /* Version.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Version.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		712D32AC19BD06570093BAD7 /* VersionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VersionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		712D32AF19BD06570093BAD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,9 +60,6 @@
 		29EA59681B5A448E002D767E /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				29EA596B1B5A448E002D767E /* UniversalFramework_Base.xcconfig */,
-				29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */,
-				29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */,
 			);
 			path = xcconfigs;
 			sourceTree = "<group>";
@@ -222,7 +215,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF3BF7042022138300A64A0B /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,7 +307,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -360,7 +352,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -369,7 +361,6 @@
 		};
 		712D32B519BD06570093BAD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -387,12 +378,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
 		712D32B619BD06570093BAD7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29EA596C1B5A448E002D767E /* UniversalFramework_Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -409,12 +400,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "de.mariusrackwitz.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
 		712D32B819BD06570093BAD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
@@ -430,7 +421,6 @@
 		};
 		712D32B919BD06570093BAD7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29EA596D1B5A448E002D767E /* UniversalFramework_Test.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = VersionTests/Info.plist;
