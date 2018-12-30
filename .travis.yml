@@ -1,14 +1,12 @@
 # reference: http://www.objc.io/issue-6/travis-ci.html
-osx_image: xcode9
+osx_image: xcode10.1
 
 language: swift
 
 before_install:
- - rvm use system
- - sudo gem install bundler
- - sudo gem install cocoapods --pre
- - sudo gem install xcpretty
- - sudo gem install xcpretty-travis-formatter
+ - sudo gem install -N cocoapods --pre
+ - sudo gem install -N xcpretty
+ - sudo gem install -N xcpretty-travis-formatter
 
 script:
  - xcodebuild test -project Version.xcodeproj -scheme Version -sdk macosx | xcpretty -c && exit ${PIPESTATUS[0]}
