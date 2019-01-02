@@ -250,20 +250,30 @@ extension Version: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.init(major: try container.decode(Int.self, forKey: .major),
-                  minor: try container.decodeIfPresent(Int.self, forKey: .minor),
-                  patch: try container.decodeIfPresent(Int.self, forKey: .patch),
-                  prerelease: try container.decodeIfPresent(String.self, forKey: .prerelease),
-                  build: try container.decodeIfPresent(String.self, forKey: .build))
+        
+        let major = try container.decode(Int.self, forKey: .major)
+        let minor = try container.decodeIfPresent(Int.self, forKey: .minor)
+        let patch = try container.decodeIfPresent(Int.self, forKey: .patch)
+        let prerelease = try container.decodeIfPresent(String.self, forKey: .prerelease)
+        let build = try container.decodeIfPresent(String.self, forKey: .build)
+        
+        self.init(
+            major: major,
+            minor: minor,
+            patch: patch,
+            prerelease: prerelease,
+            build: build
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(major, forKey: .major)
-        try container.encodeIfPresent(minor, forKey: .minor)
-        try container.encodeIfPresent(patch, forKey: .patch)
-        try container.encodeIfPresent(prerelease, forKey: .prerelease)
-        try container.encodeIfPresent(build, forKey: .build)
+        
+        try container.encode(self.major, forKey: .major)
+        try container.encodeIfPresent(self.minor, forKey: .minor)
+        try container.encodeIfPresent(self.patch, forKey: .patch)
+        try container.encodeIfPresent(self.prerelease, forKey: .prerelease)
+        try container.encodeIfPresent(self.build, forKey: .build)
     }
 }
 
