@@ -18,6 +18,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/mrackwitz/Version.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/mrackwitz'
 
+  s.swift_version = '5.0'
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
   s.watchos.deployment_target = '2.0'
