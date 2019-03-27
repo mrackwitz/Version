@@ -53,8 +53,8 @@ class VersionTests: XCTestCase {
     }
     
     func testComparableForIgnoredBuild() {
-        let a = Version("1.0.0-alpha+buildA")!
-        let b = Version("1.0.0-alpha+buildB")!
+        let a = Version("1.0.0-alpha+buildA")
+        let b = Version("1.0.0-alpha+buildB")
         XCTAssertEqual(a, b)
         XCTAssertLessThanOrEqual(a, b)
         XCTAssertGreaterThanOrEqual(a, b)
@@ -99,9 +99,9 @@ class VersionTests: XCTestCase {
     }
     
     func testComparableForCanonicalization() {
-        let major = Version("1-alpha")!
-        let majorMinor = Version("1.0-alpha")!
-        let majorMinorPatch = Version("1.0.0-alpha")!
+        let major = Version("1-alpha")
+        let majorMinor = Version("1.0-alpha")
+        let majorMinorPatch = Version("1.0.0-alpha")
         
         XCTAssertEqual(major, majorMinorPatch)
         XCTAssertEqual(major, majorMinor)
@@ -129,7 +129,7 @@ class VersionTests: XCTestCase {
     }
 
     func testCodable() {
-        let version = Version("1.2.3-alpha.1+B001")!
+        let version = Version("1.2.3-alpha.1+B001")
         let encoder = JSONEncoder()
         let data: Data
         do {

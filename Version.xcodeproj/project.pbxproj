@@ -185,25 +185,26 @@
 			attributes = {
 				LastSwiftMigration = 0730;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Marius Rackwitz";
 				TargetAttributes = {
 					712D32A019BD06570093BAD7 = {
 						CreatedOnToolsVersion = 6.0;
-						LastSwiftMigration = "";
+						LastSwiftMigration = 1020;
 					};
 					712D32AB19BD06570093BAD7 = {
 						CreatedOnToolsVersion = 6.0;
-						LastSwiftMigration = "";
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
 			buildConfigurationList = 712D329B19BD06560093BAD7 /* Build configuration list for PBXProject "Version" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 712D329719BD06560093BAD7;
 			productRefGroup = 712D32A219BD06570093BAD7 /* Products */;
@@ -269,6 +270,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -325,6 +327,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -389,6 +392,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -411,6 +415,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "de.mariusrackwitz.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -427,6 +432,7 @@
 				INFOPLIST_FILE = VersionTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.mariusrackwitz.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -438,6 +444,7 @@
 				INFOPLIST_FILE = VersionTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.mariusrackwitz.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
