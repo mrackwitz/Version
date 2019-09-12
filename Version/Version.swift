@@ -79,7 +79,7 @@ public struct Version {
     }
     
     /// Initialize a version from its string representation.
-    public init!(_ value: String) {
+    public init?(_ value: String) {
         do {
             let parser = VersionParser(strict: false)
             self = try parser.parse(string: value)
@@ -244,7 +244,7 @@ extension Version: ExpressibleByStringLiteral {
     }
     
     public init(stringLiteral value: StringLiteralType) {
-        self.init(value)
+        self.init(value)!
     }
 }
 
