@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Marius Rackwitz. All rights reserved.
 //
 
-import Version
 import XCTest
 #if os(iOS)
     import UIKit
 #endif
+@testable import Version
 
 class VersionTests: XCTestCase {
     
@@ -149,17 +149,28 @@ class VersionTests: XCTestCase {
         }
     }
     
-    func testBundleVersion() {
-        let mainBundle = Bundle(for: VersionTests.self)
-        let path = mainBundle.path(forResource: "Test", ofType: "bundle")
-        let testBundle = Bundle(path: path!)!
-        XCTAssertEqual(testBundle.shortVersion!, Version(major: 1, minor: 2, patch: 3))
-        XCTAssertEqual(testBundle.version!, version)
-    }
+    // func testBundleVersion() {
+    //     let mainBundle = Bundle(for: VersionTests.self)
+    //     let path = mainBundle.path(forResource: "Test", ofType: "bundle")
+    //     let testBundle = Bundle(path: path!)!
+    //     XCTAssertEqual(testBundle.shortVersion!, Version(major: 1, minor: 2, patch: 3))
+    //     XCTAssertEqual(testBundle.version!, version)
+    // }
     
     func testProcessInfoVersion() {
         let processVersion : Version = ProcessInfo.processInfo.operationSystemVersion
         XCTAssertGreaterThan(processVersion, "7.0.0")
     }
-    
+	
+    static var allTests = [
+        ("testEquatable", testEquatable),
+        ("testHashable", testHashable),
+        ("testStringLiteralConvertible", testStringLiteralConvertible),
+        ("testPrintable", testPrintable),
+        ("testComparableForIgnoredBuild", testComparableForIgnoredBuild),
+        ("testComparable", testComparable),
+        ("testComparableForCanonicalization", testComparableForCanonicalization),
+        ("testCodable", testCodable),
+        ("testProcessInfoVersion", testProcessInfoVersion),
+    ]
 }
