@@ -7,8 +7,11 @@ before_install:
  - sudo gem install -N cocoapods --pre
  - sudo gem install -N xcpretty
  - sudo gem install -N xcpretty-travis-formatter
+ - brew install mxcl/made/swift-sh
 
 script:
- - xcodebuild test -project Version.xcodeproj -scheme Version -sdk macosx | xcpretty -c && exit ${PIPESTATUS[0]}
+ - swift package generate-xcodeproj
  - xcodebuild test -project Version.xcodeproj -scheme Version -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+ # - xcodebuild test -scheme Version-Package -destination platform="iOS Simulator,name=iPhone 11 Pro Max,OS=13.2" | xcpretty -c && exit ${PIPESTATUS[0]}
+ - xcodebuild test -project Version.xcodeproj -scheme Version -sdk macosx | xcpretty -c && exit ${PIPESTATUS[0]}
  - pod lib lint Version.podspec
