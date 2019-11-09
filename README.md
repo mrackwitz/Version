@@ -1,4 +1,5 @@
 # Version
+
 [![CI Status](http://img.shields.io/travis/mrackwitz/Version.svg?style=flat)](https://travis-ci.org/mrackwitz/Version)
 
 Version is a Swift Library, which enables to represent and compare semantic version numbers.
@@ -10,7 +11,6 @@ The representation is:
 * Hashable & Equatable
 * String Literal Convertible
 * Printable
-
 
 ## Usage
 
@@ -70,6 +70,12 @@ for definitions, which have been passed to the compiler build setting
 
 ## Installation
 
+### Swift Package Manager
+
+```swift
+.package(url: "https://github.com/mrackwitz/Version.git", .upToNextMajor(from: "0.7.2")),
+```
+
 ### Cocoapods
 
 Version is available through [CocoaPods](http://cocoapods.org). To install
@@ -86,12 +92,10 @@ pod 'Version'
 github "mrackwitz/Version"
 ```
 
-
 ## Author
 
 Marius Rackwitz, git@mariusrackwitz.de  
 Find me on Twitter as [@mrackwitz](https://twitter.com/mrackwitz).
-
 
 ## License
 
