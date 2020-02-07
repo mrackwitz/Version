@@ -255,7 +255,11 @@ extension Version: Codable {}
 extension Bundle {
     /// The marketing version number of the bundle.
     public var version : Version? {
+       #if os(Linux)
+        return nil
+       #else
         return self.versionFromInfoDicitionary(forKey: String(kCFBundleVersionKey))
+       #endif
     }
     
     /// The short version number of the bundle.
