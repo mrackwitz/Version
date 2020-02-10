@@ -73,7 +73,7 @@ for definitions, which have been passed to the compiler build setting
 ### Swift Package Manager
 
 ```swift
-.package(url: "https://github.com/mrackwitz/Version.git", .upToNextMajor(from: "0.7.2")),
+.package(url: "https://github.com/mrackwitz/Version.git", .upToNextMajor(from: "0.7.3")),
 ```
 
 ### Cocoapods
