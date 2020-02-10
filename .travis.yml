@@ -10,6 +10,6 @@ before_install:
 
 script:
   - swift package generate-xcodeproj
-  - xcodebuild test -scheme Version-Package -destination platform="iOS Simulator,name=iPhone 11 Pro Max,OS=13.2" | xcpretty -c && exit ${PIPESTATUS[0]}
+  - xcodebuild test -scheme Version-Package -destination platform="iOS Simulator,name=iPhone 11 Pro Max,OS=13.2.2" | xcpretty -c && exit ${PIPESTATUS[0]}
   - xcodebuild test -project Version.xcodeproj -scheme Version-Package -sdk macosx | xcpretty -c && exit ${PIPESTATUS[0]}
   - pod lib lint Version.podspec
