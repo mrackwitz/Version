@@ -258,16 +258,16 @@ extension Bundle {
        #if os(Linux)
         return nil
        #else
-        return self.versionFromInfoDicitionary(forKey: String(kCFBundleVersionKey))
+        return self.versionFromInfoDictionary(forKey: String(kCFBundleVersionKey))
        #endif
     }
     
     /// The short version number of the bundle.
     public var shortVersion : Version? {
-        return self.versionFromInfoDicitionary(forKey: "CFBundleShortVersionString")
+        return self.versionFromInfoDictionary(forKey: "CFBundleShortVersionString")
     }
     
-    func versionFromInfoDicitionary(forKey key: String) -> Version? {
+    func versionFromInfoDictionary(forKey key: String) -> Version? {
         guard let dictionary = self.infoDictionary else {
             return nil
         }
