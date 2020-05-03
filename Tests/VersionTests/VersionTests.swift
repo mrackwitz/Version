@@ -40,7 +40,7 @@ class VersionTests: XCTestCase {
     }
     
     func testStringLiteralConvertible() {
-        let otherVersion : Version = "1.2.3-alpha.1+B001"
+        let otherVersion: Version = "1.2.3-alpha.1+B001"
         XCTAssertEqual(version, otherVersion)
     }
     
@@ -148,14 +148,6 @@ class VersionTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
-    
-    // func testBundleVersion() {
-    //     let mainBundle = Bundle(for: VersionTests.self)
-    //     let path = mainBundle.path(forResource: "Test", ofType: "bundle")
-    //     let testBundle = Bundle(path: path!)!
-    //     XCTAssertEqual(testBundle.shortVersion!, Version(major: 1, minor: 2, patch: 3))
-    //     XCTAssertEqual(testBundle.version!, version)
-    // }
     
     func testProcessInfoVersion() {
         let processVersion : Version = ProcessInfo.processInfo.operationSystemVersion
