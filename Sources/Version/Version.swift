@@ -15,14 +15,25 @@ public struct Version {
     /// - Note:
     /// > Increment the MAJOR version when you make incompatible API changes.
     ///
-    public var major: Int
+    public var major: Int {
+        didSet {
+            precondition(self.major >= 0, "Must be non-negative integer")
+        }
+    }
     
     /// An optional minor component of the version.
     ///
     /// - Note:
     /// > Increment the MINOR version when you add functionality in a backwards-compatible manner.
     ///
-    public var minor: Int?
+    public var minor: Int? {
+        didSet {
+            guard let minor = self.minor else {
+                return
+            }
+            precondition(minor >= 0, "Must be non-negative integer")
+        }
+    }
     
     /// Canonicalized form of minor component of the version.
     ///
@@ -35,7 +46,14 @@ public struct Version {
     /// - Note:
     /// > Increment the PATCH version when make backwards-compatible bug fixes.
     ///
-    public var patch: Int?
+    public var patch: Int? {
+        didSet {
+            guard let patch = self.patch else {
+                return
+            }
+            precondition(patch >= 0, "Must be non-negative integer")
+        }
+    }
     
     /// Canonicalized form of patch component of the version.
     ///
@@ -71,6 +89,14 @@ public struct Version {
     
     /// Initialize a version from its components.
     public init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
+        precondition(major >= 0, "Must be non-negative integer")
+        if let minor = minor {
+            precondition(minor >= 0, "Must be non-negative integer")
+        }
+        if let patch = patch {
+            precondition(patch >= 0, "Must be non-negative integer")
+        }
+
         self.major = major
         self.minor = minor
         self.patch = patch
