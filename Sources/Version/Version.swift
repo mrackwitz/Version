@@ -226,25 +226,13 @@ public func <(lhs: Version, rhs: Version) -> Bool {
 // MARK: - Hashable
 
 extension Version : Hashable {
-    #if swift(>=4.2)
     public func hash(into hasher: inout Hasher) {
         hasher.combine(major)
         hasher.combine(canonicalMinor)
         hasher.combine(canonicalPatch)
         hasher.combine(prerelease)
     }
-    #else
-    public var hashValue: Int {
-        let majorHash = major.hashValue
-        let minorHash = canonicalMinor.hashValue
-        let patchHash = canonicalPatch.hashValue
-        let prereleaseHash = prerelease?.hashValue ?? 0
-        let prime = 31
-        return [majorHash, minorHash, patchHash, prereleaseHash].reduce(0) { $0 &* prime &+ $1 }
-    }
-    #endif
 }
-
 
 // MARK: String Conversion
 
