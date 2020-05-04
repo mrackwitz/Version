@@ -17,22 +17,33 @@ The representation is:
 Versions could be either instantiated directly:
 
 ```swift
-let version = Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001")
+let version = Version(
+    major: 1,
+    minor: 2,
+    patch: 3,
+    prerelease: "alpha.1",
+    build: "B001"
+)
 ```
 
-Or they can be converted from a string literal:
+Or they can be converted from a string representation:
 
 ```swift
-let version : Version = "1.2.3-alpha.1+B001"
+let version = try Version("1.2.3-alpha.1+B001")
+
+let version: Version = "1.2.3-alpha.1+B001"
+// The line above is equivalent to:
+let version = try! Version("1.2.3-alpha.1+B001")
 ```
 
 Versions can be compared between each other:
 
 ```swift
-let version : Version = UIDevice.currentDevice().systemVersion
-if version > "8.0" {
+let version = Version(from: ProcessInfo.processInfo.operatingSystemVersion)
+
+if version > "8.0.0" {
     // do something in a more amazing way
-} else if version > "7.0"
+} else if version > "7.0.0"
     // do it an old-fashioned, legacy-style
 } else {
     // do not care …
@@ -43,7 +54,7 @@ Besides UIKit's `UIDevice` the more preferable variant to access
 the operation system version in Foundation as shown below is supported, too.
 
 ```swift
-let version : Version = NSProcessInfo.processInfo().operationSystemVersion
+let version = Version(from: ProcessInfo.processInfo.operatingSystemVersion)
 if version == "8.0.1" {
     NSLog("Sorry no cellular data for you, my friend!")
 }
@@ -73,7 +84,7 @@ for definitions, which have been passed to the compiler build setting
 ### Swift Package Manager
 
 ```swift
-.package(url: "https://github.com/mrackwitz/Version.git", .upToNextMajor(from: "0.7.3")),
+.package(url: "https://github.com/mrackwitz/Version.git", …),
 ```
 
 ### Cocoapods
