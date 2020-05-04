@@ -7,29 +7,30 @@
 //
 
 import XCTest
+
 #if os(iOS)
-    import UIKit
+import UIKit
 #endif
+
 @testable import Version
 
 class VersionTests: XCTestCase {
-    
     let version = Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001")
-    
+
     func testEquatable() {
         XCTAssert(version == Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001"))
         XCTAssert(version == Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B002"))
-        
+
         XCTAssert(version === Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001"))
         XCTAssert(version !== Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B002"))
-        
+
         XCTAssert(version != Version(major: 2, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001"))
         XCTAssert(version != Version(major: 1, minor: 3, patch: 3, prerelease: "alpha.1", build: "B001"))
         XCTAssert(version != Version(major: 1, minor: 2, patch: 4, prerelease: "alpha.1", build: "B001"))
         XCTAssert(version != Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.2", build: "B001"))
         XCTAssert(version != Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.2", build: "B002"))
     }
-    
+
     func testHashable() {
         XCTAssertEqual(version.hashValue,    Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001").hashValue)
         XCTAssertNotEqual(version.hashValue, Version(major: 2, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001").hashValue)
@@ -38,12 +39,12 @@ class VersionTests: XCTestCase {
         XCTAssertNotEqual(version.hashValue, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.2", build: "B001").hashValue)
         XCTAssertNotEqual(version.hashValue, Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.2", build: "B002").hashValue)
     }
-    
+
     func testStringLiteralConvertible() {
         let otherVersion: Version = "1.2.3-alpha.1+B001"
         XCTAssertEqual(version, otherVersion)
     }
-    
+
     func testPrintable() {
         XCTAssertEqual("1",                  Version(major: 1).description)
         XCTAssertEqual("1.2",                Version(major: 1, minor: 2).description)
@@ -51,38 +52,38 @@ class VersionTests: XCTestCase {
         XCTAssertEqual("1.2.3-alpha.1",      Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1").description)
         XCTAssertEqual("1.2.3-alpha.1+B001", Version(major: 1, minor: 2, patch: 3, prerelease: "alpha.1", build: "B001").description)
     }
-    
+
     func testComparableForIgnoredBuild() {
-        let a = Version("1.0.0-alpha+buildA")
-        let b = Version("1.0.0-alpha+buildB")
+        let a: Version = "1.0.0-alpha+buildA"
+        let b: Version = "1.0.0-alpha+buildB"
         XCTAssertEqual(a, b)
         XCTAssertLessThanOrEqual(a, b)
         XCTAssertGreaterThanOrEqual(a, b)
     }
 
-    func testComparable() {
-        let versions = [
-            Version("0.0.5-alpha"),
-            Version("0.0.5"),
-            Version("0.5.0"),
-            Version("1.0.0-alpha"),
-            Version("1.0.0-alpha+B001"),
-            Version("1.0.0"),
-            Version("1.0.0+B001"),
-            Version("1.0.3-alpha"),
-            Version("1.0.3-alpha+B001"),
-            Version("1.0.3"),
-            Version("1.0.3+B001"),
-            Version("1.2.0-alpha"),
-            Version("1.2.0-alpha+B001"),
-            Version("1.2.0+B001"),
-            Version("1.2.0"),
-            Version("1.2.3-alpha"),
-            Version("1.2.3-alpha+B001"),
-            Version("1.2.3"),
-            Version("1.2.3+B001"),
-            Version("5.4.3"),
-        ].map { $0! }
+    func testComparable() throws {
+        let versions: [Version] = [
+            "0.0.5-alpha",
+            "0.0.5",
+            "0.5.0",
+            "1.0.0-alpha",
+            "1.0.0-alpha+B001",
+            "1.0.0",
+            "1.0.0+B001",
+            "1.0.3-alpha",
+            "1.0.3-alpha+B001",
+            "1.0.3",
+            "1.0.3+B001",
+            "1.2.0-alpha",
+            "1.2.0-alpha+B001",
+            "1.2.0+B001",
+            "1.2.0",
+            "1.2.3-alpha",
+            "1.2.3-alpha+B001",
+            "1.2.3",
+            "1.2.3+B001",
+            "5.4.3",
+        ]
         for (index, greater) in versions.enumerated() {
             let range = 0..<index
             for less in versions[range] {
@@ -97,17 +98,17 @@ class VersionTests: XCTestCase {
             }
         }
     }
-    
+
     func testComparableForCanonicalization() {
-        let major = Version("1-alpha")
-        let majorMinor = Version("1.0-alpha")
-        let majorMinorPatch = Version("1.0.0-alpha")
-        
+        let major: Version = "1-alpha"
+        let majorMinor: Version = "1.0-alpha"
+        let majorMinorPatch: Version = "1.0.0-alpha"
+
         XCTAssertEqual(major, majorMinorPatch)
         XCTAssertEqual(major, majorMinor)
         XCTAssertEqual(majorMinor, majorMinorPatch)
     }
-    
+
     func testComparableForPrereleases() {
         // See http://semver.org/ - 11.
         // Precedence for two pre-release versions with the same major, minor,
@@ -129,7 +130,7 @@ class VersionTests: XCTestCase {
     }
 
     func testCodable() {
-        let version = Version("1.2.3-alpha.1+B001")
+        let version: Version = "1.2.3-alpha.1+B001"
         let encoder = JSONEncoder()
         let data: Data
         do {
@@ -148,12 +149,12 @@ class VersionTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
-    
+
     func testProcessInfoVersion() {
         let processVersion = Version(from: ProcessInfo.processInfo.operatingSystemVersion)
         XCTAssertGreaterThan(processVersion, "7.0.0")
     }
-	
+
     static var allTests = [
         ("testEquatable", testEquatable),
         ("testHashable", testHashable),

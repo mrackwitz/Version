@@ -10,20 +10,18 @@ import XCTest
 
 import Version
 
-/*
-#!/usr/bin/ruby
-
-# Ruby script used for generating carthesian product of version components:
-
-major = ['1']
-minor = ['.2', '.0']
-patch = ['.3', '.0']
-prerelease = ['-alpha', '']
-build = ['+deadbeef', '']
-product = major.product(minor, patch, prerelease, build)
-versions = product.map(&:join)
-puts versions.sort
-*/
+// #!/usr/bin/ruby
+//
+// # Ruby script used for generating carthesian product of version components:
+//
+// major = ['1']
+// minor = ['.2', '.0']
+// patch = ['.3', '.0']
+// prerelease = ['-alpha', '']
+// build = ['+deadbeef', '']
+// product = major.product(minor, patch, prerelease, build)
+// versions = product.map(&:join)
+// puts versions.sort
 
 class VersionParserTests: XCTestCase {
     var validStrings: [String] {
@@ -46,7 +44,7 @@ class VersionParserTests: XCTestCase {
             "1.2.3+deadbeef",
         ]
     }
-    
+
     var semiValidStrings: [String] {
         return [
             "1-alpha",
@@ -66,7 +64,7 @@ class VersionParserTests: XCTestCase {
             "1.2.03",
         ]
     }
-    
+
     var invalidStrings: [String] {
         return [
             "",
@@ -81,7 +79,7 @@ class VersionParserTests: XCTestCase {
             "0.0.0-alpha+_"
         ]
     }
-    
+
     var validVersions: [Version] {
         return [
             Version(major: 1, minor: 0, patch:0, prerelease: "alpha"),
@@ -102,7 +100,7 @@ class VersionParserTests: XCTestCase {
             Version(major: 1, minor: 2, patch:3, build: "deadbeef"),
         ]
     }
-    
+
     var semiValidVersions: [Version] {
         return [
             Version(major: 1, prerelease: "alpha"),
@@ -122,7 +120,7 @@ class VersionParserTests: XCTestCase {
             Version(major: 1, minor: 2, patch: 3),
         ]
     }
-    
+
     func testStrictParsingOfValidStrings() {
         let parser = VersionParser(strict: true)
         for (string, version) in zip(self.validStrings, self.validVersions) {
@@ -141,14 +139,14 @@ class VersionParserTests: XCTestCase {
             XCTAssertThrowsError(try parser.parse(string: string))
         }
     }
-    
+
     func testStrictParsingOfInvalidStrings() {
         let parser = VersionParser(strict: true)
         for string in self.invalidStrings {
             XCTAssertThrowsError(try parser.parse(string: string))
         }
     }
-    
+
     func testLenientParsingOfValidStrings() {
         let parser = VersionParser(strict: false)
         for (string, version) in zip(self.validStrings, self.validVersions) {
@@ -160,7 +158,7 @@ class VersionParserTests: XCTestCase {
             }
         }
     }
-    
+
     func testLenientParsingOfSemiValidStrings() {
         let parser = VersionParser(strict: false)
         for (string, version) in zip(self.semiValidStrings, self.semiValidVersions) {
@@ -172,7 +170,7 @@ class VersionParserTests: XCTestCase {
             }
         }
     }
-    
+
     func testLenientParsingOfInvalidStrings() {
         let parser = VersionParser(strict: false)
         for string in self.invalidStrings {
