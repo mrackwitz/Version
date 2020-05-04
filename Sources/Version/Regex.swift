@@ -8,12 +8,11 @@
 
 import Foundation
 
-
 extension String {
     var range: NSRange {
         return NSMakeRange(0, self.utf16.count)
     }
-    
+
     func substringWithRange(range: NSRange) -> String {
         let rangeStart : String.Index = self.index(self.startIndex, offsetBy: range.location)
         let rangeEnd = self.index(rangeStart, offsetBy: range.length)
@@ -34,17 +33,17 @@ struct Regex {
     let pattern: String
     let options: NSRegularExpression.Options
     let matcher: NSRegularExpression!
-    
+
     init(pattern: String, options: NSRegularExpression.Options = []) throws {
         self.pattern = pattern
         self.options = options
         self.matcher = try NSRegularExpression(pattern: self.pattern, options: self.options)
     }
-    
+
     func match(string: String, options: NSRegularExpression.MatchingOptions = []) -> Bool {
         return self.matcher.numberOfMatches(in: string, options: options, range: string.range) != 0
     }
-    
+
     func matchingsOf(string: String, options: NSRegularExpression.MatchingOptions = []) -> [String] {
         var matches : [String] = []
         self.matcher.enumerateMatches(in: string, options: options, range: string.range) {
@@ -55,7 +54,7 @@ struct Regex {
         }
         return matches
     }
-    
+
     func matchingGroupsOf(string: String, options: NSRegularExpression.MatchingOptions = []) -> [[String?]] {
         var matches : [[String?]] = []
         self.matcher.enumerateMatches(in: string, options: options, range: string.range) {
@@ -66,7 +65,7 @@ struct Regex {
         }
         return matches
     }
-    
+
     func groupsOfFirstMatch(string: String, options: NSRegularExpression.MatchingOptions = []) -> [String?] {
         if let match = self.matcher.firstMatch(in: string, options: options, range: string.range) {
             return match.groupsInString(string: string)
@@ -84,15 +83,15 @@ func ==(lhs: Regex, rhs: Regex) -> Bool {
 extension Regex: ExpressibleByStringLiteral {
     typealias UnicodeScalarLiteralType = StringLiteralType
     typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
-    
+
     init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(stringLiteral: value)
     }
-    
+
     init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(stringLiteral: value)
     }
-    
+
     init(stringLiteral value: StringLiteralType) {
         try! self.init(pattern: value)
     }

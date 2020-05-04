@@ -20,7 +20,7 @@ public struct Version {
             precondition(self.major >= 0, "Must be non-negative integer")
         }
     }
-    
+
     /// An optional minor component of the version.
     ///
     /// - Note:
@@ -34,13 +34,13 @@ public struct Version {
             precondition(minor >= 0, "Must be non-negative integer")
         }
     }
-    
+
     /// Canonicalized form of minor component of the version.
     ///
     public var canonicalMinor: Int {
         return self.minor ?? 0
     }
-    
+
     /// An optional patch component of the version.
     ///
     /// - Note:
@@ -54,13 +54,13 @@ public struct Version {
             precondition(patch >= 0, "Must be non-negative integer")
         }
     }
-    
+
     /// Canonicalized form of patch component of the version.
     ///
     public var canonicalPatch: Int {
         return self.patch ?? 0
     }
-    
+
     /// An optional prerelease component of the version.
     ///
     /// - Note:
@@ -80,15 +80,21 @@ public struct Version {
     ///    * `1.0.0-x.7.z.92`
     ///
     public var prerelease: String?
-    
+
     /// An optional build component of the version.
     public var build: String?
 
     fileprivate static let strictParser = VersionParser(strict: true)
     fileprivate static let lenientParser = VersionParser(strict: false)
-    
+
     /// Initialize a version from its components.
-    public init(major: Int = 0, minor: Int? = nil, patch: Int? = nil, prerelease: String? = nil, build: String? = nil) {
+    public init(
+        major: Int = 0,
+        minor: Int? = nil,
+        patch: Int? = nil,
+        prerelease: String? = nil,
+        build: String? = nil
+    ) {
         precondition(major >= 0, "Must be non-negative integer")
         if let minor = minor {
             precondition(minor >= 0, "Must be non-negative integer")
@@ -103,7 +109,7 @@ public struct Version {
         self.prerelease = prerelease
         self.build = build
     }
-    
+
     /// Initialize a version from its (non-strict) string representation, or throw.
     public init(_ string: String, strict: Bool = false) throws {
         let parser = VersionParser(strict: strict)
@@ -118,13 +124,13 @@ public struct Version {
             patch: version.patchVersion
         )
     }
-    
+
     /// Canonicalize version by replacing nil components with their defaults
     public mutating func canonicalize() {
         self.minor = self.minor ?? 0
         self.patch = self.patch ?? 0
     }
-    
+
     /// Create canonicalized copy
     public func canonicalized() -> Version {
         var copy = self
@@ -165,7 +171,7 @@ public struct Version {
 
 // MARK: - Equatable
 
-extension Version : Equatable {}
+extension Version: Equatable {}
 
 public func ==(lhs: Version, rhs: Version) -> Bool {
     let equalMajor = lhs.major == rhs.major
@@ -183,10 +189,9 @@ public func !==(lhs: Version, rhs: Version) -> Bool {
     return !(lhs === rhs)
 }
 
-
 // MARK: - Comparable
 
-extension Version : Comparable {}
+extension Version: Comparable {}
 
 public func <(lhs: Version, rhs: Version) -> Bool {
     let majorComparison = Version.compare(lhs: lhs.major, rhs: rhs.major)
@@ -206,21 +211,20 @@ public func <(lhs: Version, rhs: Version) -> Bool {
 
     switch (lhs.prerelease, rhs.prerelease) {
     case (.some, .none):
-            return true
+        return true
     case (.none, .some):
-            return false
+        return false
     case (.none, .none):
-            return false
+        return false
     case (.some(let lpre), .some(let rpre)):
         let prereleaseComparison = Version.compareNumeric(lhs: lpre, rhs: rpre)
         return prereleaseComparison == .orderedAscending
     }
 }
 
-
 // MARK: - Hashable
 
-extension Version : Hashable {
+extension Version: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(major)
         hasher.combine(canonicalMinor)
@@ -231,15 +235,16 @@ extension Version : Hashable {
 
 // MARK: String Conversion
 
-extension Version : CustomStringConvertible {
+extension Version: CustomStringConvertible {
     public var description: String {
-        return [
+        let components: [String] = [
             "\(major)",
             minor      != nil ? ".\(minor!)"      : "",
             patch      != nil ? ".\(patch!)"      : "",
             prerelease != nil ? "-\(prerelease!)" : "",
             build      != nil ? "+\(build!)"      : ""
-            ].joined(separator: "")
+        ]
+        return components.joined(separator: "")
     }
 }
 
@@ -252,15 +257,15 @@ extension Version {
 extension Version: ExpressibleByStringLiteral {
     public typealias UnicodeScalarLiteralType = StringLiteralType
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
-    
+
     public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(stringLiteral: value)
     }
-    
+
     public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(stringLiteral: value)
     }
-    
+
     public init(stringLiteral value: StringLiteralType) {
         try! self.init(value)
     }
@@ -272,20 +277,20 @@ extension Version: Codable {}
 
 extension Bundle {
     /// The marketing version number of the bundle.
-    public var version : Version? {
-       #if os(Linux)
+    public var version: Version? {
+        #if os(Linux)
         return nil
-       #else
+        #else
         return self.versionFromInfoDictionary(forKey: String(kCFBundleVersionKey))
-       #endif
+        #endif
     }
-    
+
     /// The short version number of the bundle.
-    public var shortVersion : Version? {
+    public var shortVersion: Version? {
         return self.versionFromInfoDictionary(forKey: "CFBundleShortVersionString")
     }
-    
-    func versionFromInfoDictionary(forKey key: String) -> Version? {
+
+    internal func versionFromInfoDictionary(forKey key: String) -> Version? {
         guard let dictionary = self.infoDictionary else {
             return nil
         }
