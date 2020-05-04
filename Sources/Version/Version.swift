@@ -114,6 +114,15 @@ public struct Version {
             return nil
         }
     }
+
+    /// Initialize a version from a `OperatingSystemVersion`.
+    public init(from version: OperatingSystemVersion) {
+        self.init(
+            major: version.majorVersion,
+            minor: version.minorVersion,
+            patch: version.patchVersion
+        )
+    }
     
     /// Canonicalize version by replacing nil components with their defaults
     public mutating func canonicalize() {
@@ -305,19 +314,5 @@ extension Bundle {
         } catch {
             return nil
         }
-    }
-}
-
-extension ProcessInfo {
-    /// The version of the operating system on which the process is executing.
-    @available(OSX, introduced: 10.10)
-    @available(iOS, introduced: 8.0)
-    public var operationSystemVersion: Version {
-        let version : OperatingSystemVersion = self.operatingSystemVersion
-        return Version(
-            major: version.majorVersion,
-            minor: version.minorVersion,
-            patch: version.patchVersion
-        )
     }
 }

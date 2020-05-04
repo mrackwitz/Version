@@ -150,7 +150,7 @@ class VersionTests: XCTestCase {
     }
     
     func testProcessInfoVersion() {
-        let processVersion : Version = ProcessInfo.processInfo.operationSystemVersion
+        let processVersion = Version(from: ProcessInfo.processInfo.operatingSystemVersion)
         XCTAssertGreaterThan(processVersion, "7.0.0")
     }
 	
