@@ -104,15 +104,10 @@ public struct Version {
         self.build = build
     }
     
-    /// Initialize a version from its string representation.
-    public init?(_ value: String) {
-        do {
-            let parser = VersionParser(strict: false)
-            self = try parser.parse(string: value)
-        } catch let error {
-            print("Error: Failed to parse version number '\(value)': \(error)")
-            return nil
-        }
+    /// Initialize a version from its (non-strict) string representation, or throw.
+    public init(_ string: String, strict: Bool = false) throws {
+        let parser = VersionParser(strict: strict)
+        self = try parser.parse(string: string)
     }
 
     /// Initialize a version from a `OperatingSystemVersion`.
@@ -267,7 +262,7 @@ extension Version: ExpressibleByStringLiteral {
     }
     
     public init(stringLiteral value: StringLiteralType) {
-        self.init(value)!
+        try! self.init(value)
     }
 }
 
