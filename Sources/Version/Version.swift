@@ -278,10 +278,10 @@ extension Version: Codable {}
 extension Bundle {
     /// The marketing version number of the bundle.
     public var version: Version? {
-        #if os(Linux)
-        return nil
-        #else
+        #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
         return self.versionFromInfoDictionary(forKey: String(kCFBundleVersionKey))
+        #else
+        return self.versionFromInfoDictionary(forKey: String("CFBundleVersion"))
         #endif
     }
 
