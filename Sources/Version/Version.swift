@@ -281,7 +281,7 @@ extension Bundle {
         #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
         return self.versionFromInfoDictionary(forKey: String(kCFBundleVersionKey))
         #else
-        return self.versionFromInfoDictionary(forKey: String("CFBundleVersion"))
+        return self.versionFromInfoDictionary(forKey: "CFBundleVersion")
         #endif
     }
 
